@@ -5,6 +5,10 @@
 @tailwind utilities;
 
 @layer base {
+  *, ::before, ::after {
+    font-family: 'Times New Roman', Times, Georgia, serif;
+  }
+
   :root {
     --color-bg-base: #FBF9F5;
     --color-bg-surface: #FFFFFF;
@@ -20,9 +24,9 @@
   body {
     background-color: var(--color-bg-base);
     color: var(--color-text-primary);
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Times New Roman', Times, Georgia, serif !important;
     overflow-x: hidden;
-    letter-spacing: -0.012em;
+    letter-spacing: 0em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -32,43 +36,43 @@
    1. EDITORIAL TYPOGRAPHY SYSTEM
    ========================================================================= */
 .type-display {
-  font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  font-family: 'Times New Roman', Times, Georgia, serif !important;
   font-size: clamp(2.5rem, 5vw, 4.25rem);
   font-weight: 800;
   line-height: 1.08;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.01em;
 }
 
 .type-h1 {
-  font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  font-family: 'Times New Roman', Times, Georgia, serif !important;
   font-size: clamp(2rem, 3.5vw, 2.85rem);
   font-weight: 700;
   line-height: 1.15;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 }
 
 .type-h2 {
-  font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  font-family: 'Times New Roman', Times, Georgia, serif !important;
   font-size: clamp(1.5rem, 2.5vw, 2.15rem);
   font-weight: 700;
   line-height: 1.22;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .type-h3 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Times New Roman', Times, Georgia, serif !important;
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.35;
-  letter-spacing: -0.015em;
+  letter-spacing: 0em;
 }
 
 .type-h4 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Times New Roman', Times, Georgia, serif !important;
   font-size: 1.05rem;
   font-weight: 600;
   line-height: 1.4;
-  letter-spacing: -0.01em;
+  letter-spacing: 0em;
 }
 
 .type-body-lg {

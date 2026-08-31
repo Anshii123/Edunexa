@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg-base: #FBF9F5;
+    --color-bg-surface: #FFFFFF;
+    --color-bg-elevated: #F4F1EA;
+    --color-border: #E8E4DC;
+    --color-border-subtle: #F0EDE6;
+    --color-border-hover: #1D4ED8;
+    --color-text-primary: #16191E;
+    --color-text-secondary: #575D68;
+    --color-text-muted: #7E8694;
+  }
+
+  body {
+    background-color: var(--color-bg-base);
+    color: var(--color-text-primary);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+    letter-spacing: -0.012em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* =========================================================================
+   1. EDITORIAL TYPOGRAPHY SYSTEM
+   ========================================================================= */
+.type-display {
+  font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.type-h1 {
+  font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  font-size: clamp(2rem, 3.5vw, 2.85rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.type-h2 {
+  font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  font-size: clamp(1.5rem, 2.5vw, 2.15rem);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+}
+
+.type-h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+.type-h4 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.type-body-lg {
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: #363E4D;
+}
+
+.type-body {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #575D68;
+}
+
+.type-body-sm {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #575D68;
+}
+
+.type-caption {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #7E8694;
+}
+
+.type-eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* =========================================================================
+   2. REFINED CONTAINER & ELEVATION SYSTEM
+   ========================================================================= */
+.edunexa-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .edunexa-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .edunexa-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    max-width: 1280px;
+  }
+}
+
+/* Subtle Architectural Surfaces */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #E8E4DC;
+}
+
+.glass-card {
+  background: #FFFFFF;
+  border: 1px solid #EAE6DE;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.glass-card-hover {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.glass-card-hover:hover {
+  border-color: #CBD5E1;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+.glass-header {
+  background: rgba(251, 249, 245, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid #EAE6DE;
+}
+
+/* Accessible Global Focus Ring */
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
+}
+
+/* Custom Editorial Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F2EB;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D1CAC0;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B5AB9F;
+}
+
+/* =========================================================================
+   3. RESPONSIVE & MOBILE POLISH UTILITIES
+   ========================================================================= */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent text clipping across varying aspect ratios */
+h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Touch friendly mobile inputs */
+@media (max-width: 640px) {
+  button, input, select, textarea {
+    font-size: 16px; /* Prevents auto-zoom on iOS safari */
+  }
+}
+

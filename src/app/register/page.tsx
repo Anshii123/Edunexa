@@ -103,7 +103,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-5rem)] bg-[#FBF9F5] flex items-center justify-center p-4 sm:p-8">
+    <div className="min-h-screen bg-[#FBF9F5] flex items-center justify-center p-4 sm:p-8 pt-24 pb-12">
       <div className="w-full max-w-xl bg-white rounded-3xl p-6 sm:p-10 border border-stone-200/90 shadow-card space-y-6">
         {/* Header */}
         <div className="text-center space-y-2">

@@ -215,7 +215,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-[calc(100vh-5rem)] bg-[#FBF9F5] flex items-center justify-center p-4 sm:p-8">
+    <div className="min-h-screen bg-[#FBF9F5] flex items-center justify-center p-4 sm:p-8 pt-24 pb-12">
       <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white rounded-3xl p-6 sm:p-12 border border-stone-200/90 shadow-card relative overflow-hidden">
         {/* Left Form Area (7 cols) */}
         <div className="lg:col-span-7 py-2">

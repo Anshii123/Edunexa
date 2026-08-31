@@ -40,7 +40,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#FBF9F5] text-charcoal-900 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-[#FBF9F5] text-charcoal-900 flex flex-col lg:flex-row pt-20">
       {/* Mobile Top Bar */}
       <header className="lg:hidden sticky top-20 z-40 bg-white/95 backdrop-blur-xl border-b border-stone-200 px-4 py-3.5 flex items-center justify-between shadow-xs">
         <div className="flex items-center gap-3">

@@ -11,7 +11,7 @@ import {
   MediaModel 
 } from '@/lib/models';
 import { db as inMemoryDb } from './storage';
-import { Course, Faculty, AdmissionLead, Notice, EventItem, StudentProfile } from '@/types';
+import { Course, Faculty, AdmissionLead, Notice, EventItem } from '@/types';
 import { MediaAsset, MediaCategory } from '@/lib/media/types';
 
 export interface PaginationOptions {
@@ -29,13 +29,6 @@ export interface PaginatedResult<T> {
   };
 }
 
-function toMongooseFilter(id: string) {
-  if (mongoose.Types.ObjectId.isValid(id)) {
-    return { _id: id };
-  }
-  return { $or: [{ slug: id }, { referenceId: id }] };
-}
-
 export class EduNexaDatabaseService {
   private static instance: EduNexaDatabaseService;
 
@@ -47,7 +40,7 @@ export class EduNexaDatabaseService {
   }
 
   // ==========================================
-  // COURSES
+  // COURSES CRUD
   // ==========================================
   public async getCourses(params?: {
     category?: string;
@@ -58,7 +51,7 @@ export class EduNexaDatabaseService {
     limit?: number;
   }): Promise<PaginatedResult<Course>> {
     const page = Math.max(1, Number(params?.page) || 1);
-    const limit = Math.min(100, Math.max(1, Number(params?.limit) || 20));
+    const limit = Math.min(100, Math.max(1, Number(params?.limit) || 50));
     const skip = (page - 1) * limit;
 
     const conn = await connectToDatabase();
@@ -76,30 +69,33 @@ export class EduNexaDatabaseService {
         }
 
         const total = await CourseModel.countDocuments(query);
-        if (total > 0) {
-          const docs = await CourseModel.find(query)
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(limit)
-            .lean();
+        const docs = await CourseModel.find(query)
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(limit)
+          .lean();
 
-          const data = docs.map((d: any) => ({ ...d, id: d._id.toString() })) as Course[];
-          return {
-            data,
-            pagination: {
-              total,
-              page,
-              limit,
-              totalPages: Math.ceil(total / limit) || 1,
-            },
-          };
-        }
+        const data = docs.map((d: any) => ({
+          ...d,
+          id: d._id.toString(),
+          _id: d._id.toString(),
+        })) as unknown as Course[];
+
+        return {
+          data,
+          pagination: {
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit) || 1,
+          },
+        };
       } catch (err) {
         console.warn('MongoDB query fallback for courses:', err);
       }
     }
 
-    // Fallback in-memory
+    // Fallback in-memory if DB disconnected
     let courses = inMemoryDb.getCourses();
     if (params?.activeOnly) courses = courses.filter((c) => c.active);
     if (params?.category && params.category !== 'All') courses = courses.filter((c) => c.category === params.category);
@@ -130,8 +126,12 @@ export class EduNexaDatabaseService {
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
-        const doc = await CourseModel.findOne({ slug: slug.toLowerCase() }).lean();
-        if (doc) return { ...doc, id: (doc as any)._id.toString() } as unknown as Course;
+        const query = mongoose.Types.ObjectId.isValid(slug) 
+          ? { $or: [{ _id: slug }, { slug: slug.toLowerCase() }] }
+          : { slug: slug.toLowerCase() };
+          
+        const doc = await CourseModel.findOne(query).lean();
+        if (doc) return { ...doc, id: (doc as any)._id.toString(), _id: (doc as any)._id.toString() } as unknown as Course;
       } catch (err) {
         console.warn('MongoDB fallback for slug lookup:', err);
       }
@@ -140,62 +140,75 @@ export class EduNexaDatabaseService {
   }
 
   public async createCourse(data: Partial<Course>): Promise<Course> {
-    const memCourse = inMemoryDb.addCourse(data as any);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
-        const created = await CourseModel.create(data);
-        return { ...created.toJSON(), id: created._id.toString() } as unknown as Course;
+        const payload = { ...data };
+        delete (payload as any).id;
+        delete (payload as any)._id;
+
+        const created = await CourseModel.create(payload);
+        const json = created.toJSON();
+        return { ...json, id: created._id.toString(), _id: created._id.toString() } as unknown as Course;
       } catch (err) {
         console.warn('MongoDB course create notice:', err);
       }
     }
-    return memCourse;
+    return inMemoryDb.addCourse(data as any);
   }
 
   public async updateCourse(id: string, data: Partial<Course>): Promise<Course | null> {
-    const memUpdated = inMemoryDb.updateCourse(id, data);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
+        const updateData = { ...data };
+        delete (updateData as any).id;
+        delete (updateData as any)._id;
+
+        let updatedDoc = null;
         if (mongoose.Types.ObjectId.isValid(id)) {
-          await CourseModel.findByIdAndUpdate(id, { $set: data }, { new: true });
+          updatedDoc = await CourseModel.findByIdAndUpdate(id, { $set: updateData }, { new: true, runValidators: true }).lean();
         } else {
-          await CourseModel.findOneAndUpdate({ slug: id }, { $set: data }, { new: true });
+          updatedDoc = await CourseModel.findOneAndUpdate({ slug: id }, { $set: updateData }, { new: true, runValidators: true }).lean();
+        }
+
+        if (updatedDoc) {
+          return { ...updatedDoc, id: (updatedDoc as any)._id.toString(), _id: (updatedDoc as any)._id.toString() } as unknown as Course;
         }
       } catch (err) {
-        console.warn('MongoDB update notice:', err);
+        console.warn('MongoDB course update notice:', err);
       }
     }
-    return memUpdated;
+    return inMemoryDb.updateCourse(id, data);
   }
 
   public async deleteCourse(id: string): Promise<boolean> {
-    const memDeleted = inMemoryDb.deleteCourse(id);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
+        let deleted = null;
         if (mongoose.Types.ObjectId.isValid(id)) {
-          await CourseModel.findByIdAndDelete(id);
+          deleted = await CourseModel.findByIdAndDelete(id);
         } else {
-          await CourseModel.findOneAndDelete({ slug: id });
+          deleted = await CourseModel.findOneAndDelete({ slug: id });
         }
+        return Boolean(deleted);
       } catch (err) {
-        console.warn('MongoDB delete notice:', err);
+        console.warn('MongoDB course delete notice:', err);
       }
     }
-    return memDeleted;
+    return inMemoryDb.deleteCourse(id);
   }
 
   // ==========================================
-  // FACULTY
+  // FACULTY CRUD
   // ==========================================
   public async getFaculty(): Promise<Faculty[]> {
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
         const docs = await FacultyModel.find().sort({ createdAt: -1 }).lean();
-        if (docs.length > 0) return docs.map((d: any) => ({ ...d, id: d._id.toString() })) as Faculty[];
+        return docs.map((d: any) => ({ ...d, id: d._id.toString(), _id: d._id.toString() })) as unknown as Faculty[];
       } catch (err) {
         console.warn('MongoDB faculty fetch fallback:', err);
       }
@@ -204,50 +217,60 @@ export class EduNexaDatabaseService {
   }
 
   public async createFaculty(data: Partial<Faculty>): Promise<Faculty> {
-    const memFac = inMemoryDb.addFaculty(data as any);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
-        await FacultyModel.create(data);
+        const payload = { ...data };
+        delete (payload as any).id;
+        delete (payload as any)._id;
+        const created = await FacultyModel.create(payload);
+        const json = created.toJSON();
+        return { ...json, id: created._id.toString(), _id: created._id.toString() } as unknown as Faculty;
       } catch (err) {
         console.warn('MongoDB faculty create notice:', err);
       }
     }
-    return memFac;
+    return inMemoryDb.addFaculty(data as any);
   }
 
   public async updateFaculty(id: string, data: Partial<Faculty>): Promise<Faculty | null> {
-    const memUpdated = inMemoryDb.updateFaculty(id, data);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
+        const updateData = { ...data };
+        delete (updateData as any).id;
+        delete (updateData as any)._id;
+
         if (mongoose.Types.ObjectId.isValid(id)) {
-          await FacultyModel.findByIdAndUpdate(id, { $set: data }, { new: true });
+          const updatedDoc = await FacultyModel.findByIdAndUpdate(id, { $set: updateData }, { new: true }).lean();
+          if (updatedDoc) {
+            return { ...updatedDoc, id: (updatedDoc as any)._id.toString(), _id: (updatedDoc as any)._id.toString() } as unknown as Faculty;
+          }
         }
       } catch (err) {
         console.warn('MongoDB faculty update notice:', err);
       }
     }
-    return memUpdated;
+    return inMemoryDb.updateFaculty(id, data);
   }
 
   public async deleteFaculty(id: string): Promise<boolean> {
-    const memDeleted = inMemoryDb.deleteFaculty(id);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
         if (mongoose.Types.ObjectId.isValid(id)) {
-          await FacultyModel.findByIdAndDelete(id);
+          const res = await FacultyModel.findByIdAndDelete(id);
+          return Boolean(res);
         }
       } catch (err) {
         console.warn('MongoDB faculty delete notice:', err);
       }
     }
-    return memDeleted;
+    return inMemoryDb.deleteFaculty(id);
   }
 
   // ==========================================
-  // ADMISSIONS
+  // ADMISSIONS CRUD
   // ==========================================
   public async getAdmissions(params?: {
     status?: string;
@@ -256,7 +279,7 @@ export class EduNexaDatabaseService {
     limit?: number;
   }): Promise<PaginatedResult<AdmissionLead>> {
     const page = Math.max(1, Number(params?.page) || 1);
-    const limit = Math.min(100, Math.max(1, Number(params?.limit) || 20));
+    const limit = Math.min(100, Math.max(1, Number(params?.limit) || 50));
     const skip = (page - 1) * limit;
 
     const conn = await connectToDatabase();
@@ -275,14 +298,12 @@ export class EduNexaDatabaseService {
         }
 
         const total = await AdmissionModel.countDocuments(query);
-        if (total > 0) {
-          const docs = await AdmissionModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).lean();
-          const data = docs.map((d: any) => ({ ...d, id: d._id.toString() })) as AdmissionLead[];
-          return {
-            data,
-            pagination: { total, page, limit, totalPages: Math.ceil(total / limit) || 1 },
-          };
-        }
+        const docs = await AdmissionModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).lean();
+        const data = docs.map((d: any) => ({ ...d, id: d._id.toString(), _id: d._id.toString() })) as unknown as AdmissionLead[];
+        return {
+          data,
+          pagination: { total, page, limit, totalPages: Math.ceil(total / limit) || 1 },
+        };
       } catch (err) {
         console.warn('MongoDB admissions query fallback:', err);
       }
@@ -311,54 +332,72 @@ export class EduNexaDatabaseService {
   }
 
   public async createAdmission(data: Partial<AdmissionLead>): Promise<AdmissionLead> {
-    const memLead = inMemoryDb.addLead(data as any);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
-        await AdmissionModel.create({ ...data, referenceId: memLead.referenceId });
+        const randomCode = Math.floor(1000 + Math.random() * 9000);
+        const prefix = data.inquiryType === 'Contact Message' ? 'CNT' : 'ADM';
+        const referenceId = data.referenceId || `EDN-${prefix}-${randomCode}`;
+
+        const payload = {
+          ...data,
+          referenceId,
+          status: data.status || 'New',
+        };
+        delete (payload as any).id;
+        delete (payload as any)._id;
+
+        const created = await AdmissionModel.create(payload);
+        const json = created.toJSON();
+        return { ...json, id: created._id.toString(), _id: created._id.toString() } as unknown as AdmissionLead;
       } catch (err) {
         console.warn('MongoDB admission create notice:', err);
       }
     }
-    return memLead;
+    return inMemoryDb.addLead(data as any);
   }
 
   public async updateAdmissionStatus(id: string, status: AdmissionLead['status']): Promise<AdmissionLead | null> {
-    const memUpdated = inMemoryDb.updateLeadStatus(id, status);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
+        let updatedDoc = null;
         if (mongoose.Types.ObjectId.isValid(id)) {
-          await AdmissionModel.findByIdAndUpdate(id, { $set: { status } });
+          updatedDoc = await AdmissionModel.findByIdAndUpdate(id, { $set: { status } }, { new: true }).lean();
         } else {
-          await AdmissionModel.findOneAndUpdate({ referenceId: id }, { $set: { status } });
+          updatedDoc = await AdmissionModel.findOneAndUpdate({ referenceId: id }, { $set: { status } }, { new: true }).lean();
+        }
+
+        if (updatedDoc) {
+          return { ...updatedDoc, id: (updatedDoc as any)._id.toString(), _id: (updatedDoc as any)._id.toString() } as unknown as AdmissionLead;
         }
       } catch (err) {
         console.warn('MongoDB admission status update notice:', err);
       }
     }
-    return memUpdated;
+    return inMemoryDb.updateLeadStatus(id, status);
   }
 
   public async deleteAdmission(id: string): Promise<boolean> {
-    const memDeleted = inMemoryDb.deleteLead(id);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
+        let deleted = null;
         if (mongoose.Types.ObjectId.isValid(id)) {
-          await AdmissionModel.findByIdAndDelete(id);
+          deleted = await AdmissionModel.findByIdAndDelete(id);
         } else {
-          await AdmissionModel.findOneAndDelete({ referenceId: id });
+          deleted = await AdmissionModel.findOneAndDelete({ referenceId: id });
         }
+        return Boolean(deleted);
       } catch (err) {
         console.warn('MongoDB admission delete notice:', err);
       }
     }
-    return memDeleted;
+    return inMemoryDb.deleteLead(id);
   }
 
   // ==========================================
-  // ENQUIRIES
+  // ENQUIRIES CRUD
   // ==========================================
   public async createEnquiry(data: { name: string; email: string; phone?: string; subject?: string; message: string }) {
     const referenceId = `EDN-CNT-${Math.floor(100000 + Math.random() * 900000)}`;
@@ -378,7 +417,7 @@ export class EduNexaDatabaseService {
 
   public async getEnquiries(params?: { search?: string; status?: string; page?: number; limit?: number }) {
     const page = Math.max(1, Number(params?.page) || 1);
-    const limit = Math.min(100, Math.max(1, Number(params?.limit) || 20));
+    const limit = Math.min(100, Math.max(1, Number(params?.limit) || 50));
     const skip = (page - 1) * limit;
 
     const conn = await connectToDatabase();
@@ -407,14 +446,14 @@ export class EduNexaDatabaseService {
   }
 
   // ==========================================
-  // NOTICES
+  // NOTICES CRUD
   // ==========================================
   public async getNotices(): Promise<Notice[]> {
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
-        const docs = await NoticeModel.find().sort({ isPinned: -1, createdAt: -1 }).lean();
-        if (docs.length > 0) return docs.map((d: any) => ({ ...d, id: d._id.toString() })) as Notice[];
+        const docs = await NoticeModel.find().sort({ pinned: -1, createdAt: -1 }).lean();
+        return docs.map((d: any) => ({ ...d, id: d._id.toString(), _id: d._id.toString() })) as unknown as Notice[];
       } catch (err) {
         console.warn('MongoDB notices fetch fallback:', err);
       }
@@ -423,57 +462,68 @@ export class EduNexaDatabaseService {
   }
 
   public async createNotice(data: Partial<Notice>): Promise<Notice> {
-    const memNotice = inMemoryDb.addNotice(data as any);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
-        await NoticeModel.create(data);
+        const payload = { ...data };
+        delete (payload as any).id;
+        delete (payload as any)._id;
+
+        const created = await NoticeModel.create(payload);
+        const json = created.toJSON();
+        return { ...json, id: created._id.toString(), _id: created._id.toString() } as unknown as Notice;
       } catch (err) {
         console.warn('MongoDB notice create notice:', err);
       }
     }
-    return memNotice;
+    return inMemoryDb.addNotice(data as any);
   }
 
   public async updateNotice(id: string, data: Partial<Notice>): Promise<Notice | null> {
-    const memUpdated = inMemoryDb.updateNotice(id, data);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
+        const updateData = { ...data };
+        delete (updateData as any).id;
+        delete (updateData as any)._id;
+
         if (mongoose.Types.ObjectId.isValid(id)) {
-          await NoticeModel.findByIdAndUpdate(id, { $set: data }, { new: true });
+          const updatedDoc = await NoticeModel.findByIdAndUpdate(id, { $set: updateData }, { new: true }).lean();
+          if (updatedDoc) {
+            return { ...updatedDoc, id: (updatedDoc as any)._id.toString(), _id: (updatedDoc as any)._id.toString() } as unknown as Notice;
+          }
         }
       } catch (err) {
         console.warn('MongoDB notice update notice:', err);
       }
     }
-    return memUpdated;
+    return inMemoryDb.updateNotice(id, data);
   }
 
   public async deleteNotice(id: string): Promise<boolean> {
-    const memDeleted = inMemoryDb.deleteNotice(id);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
         if (mongoose.Types.ObjectId.isValid(id)) {
-          await NoticeModel.findByIdAndDelete(id);
+          const res = await NoticeModel.findByIdAndDelete(id);
+          return Boolean(res);
         }
       } catch (err) {
         console.warn('MongoDB notice delete notice:', err);
       }
     }
-    return memDeleted;
+    return inMemoryDb.deleteNotice(id);
   }
 
   // ==========================================
-  // EVENTS
+  // EVENTS CRUD
   // ==========================================
   public async getEvents(): Promise<EventItem[]> {
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
         const docs = await EventModel.find().sort({ date: 1 }).lean();
-        if (docs.length > 0) return docs.map((d: any) => ({ ...d, id: d._id.toString() })) as EventItem[];
+        return docs.map((d: any) => ({ ...d, id: d._id.toString(), _id: d._id.toString() })) as unknown as EventItem[];
       } catch (err) {
         console.warn('MongoDB events fetch fallback:', err);
       }
@@ -482,50 +532,61 @@ export class EduNexaDatabaseService {
   }
 
   public async createEvent(data: Partial<EventItem>): Promise<EventItem> {
-    const memEvent = inMemoryDb.addEvent(data as any);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
-        await EventModel.create(data);
+        const payload = { ...data };
+        delete (payload as any).id;
+        delete (payload as any)._id;
+
+        const created = await EventModel.create(payload);
+        const json = created.toJSON();
+        return { ...json, id: created._id.toString(), _id: created._id.toString() } as unknown as EventItem;
       } catch (err) {
         console.warn('MongoDB event create notice:', err);
       }
     }
-    return memEvent;
+    return inMemoryDb.addEvent(data as any);
   }
 
   public async updateEvent(id: string, data: Partial<EventItem>): Promise<EventItem | null> {
-    const memUpdated = inMemoryDb.updateEvent(id, data);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
+        const updateData = { ...data };
+        delete (updateData as any).id;
+        delete (updateData as any)._id;
+
         if (mongoose.Types.ObjectId.isValid(id)) {
-          await EventModel.findByIdAndUpdate(id, { $set: data }, { new: true });
+          const updatedDoc = await EventModel.findByIdAndUpdate(id, { $set: updateData }, { new: true }).lean();
+          if (updatedDoc) {
+            return { ...updatedDoc, id: (updatedDoc as any)._id.toString(), _id: (updatedDoc as any)._id.toString() } as unknown as EventItem;
+          }
         }
       } catch (err) {
         console.warn('MongoDB event update notice:', err);
       }
     }
-    return memUpdated;
+    return inMemoryDb.updateEvent(id, data);
   }
 
   public async deleteEvent(id: string): Promise<boolean> {
-    const memDeleted = inMemoryDb.deleteEvent(id);
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
         if (mongoose.Types.ObjectId.isValid(id)) {
-          await EventModel.findByIdAndDelete(id);
+          const res = await EventModel.findByIdAndDelete(id);
+          return Boolean(res);
         }
       } catch (err) {
         console.warn('MongoDB event delete notice:', err);
       }
     }
-    return memDeleted;
+    return inMemoryDb.deleteEvent(id);
   }
 
   // ==========================================
-  // MEDIA
+  // MEDIA CRUD
   // ==========================================
   public async getMedia(params?: { category?: MediaCategory; page?: number; limit?: number }) {
     const conn = await connectToDatabase();
@@ -534,16 +595,29 @@ export class EduNexaDatabaseService {
         const query: any = {};
         if (params?.category && (params.category as any) !== 'All') query.category = params.category;
         const docs = await MediaModel.find(query).sort({ createdAt: -1 }).lean();
-        if (docs.length > 0) return docs.map((d: any) => ({ ...d, id: d._id.toString() })) as MediaAsset[];
+        return docs.map((d: any) => ({ ...d, id: d._id.toString(), _id: d._id.toString() })) as MediaAsset[];
       } catch (err) {
         console.warn('MongoDB media fetch fallback:', err);
       }
     }
-    return null;
+    return [];
   }
 
   public async createMedia(data: Partial<MediaAsset>): Promise<MediaAsset> {
-    const newAsset: MediaAsset = {
+    const conn = await connectToDatabase();
+    if (conn && isDbConnected()) {
+      try {
+        const payload = { ...data };
+        delete (payload as any).id;
+        delete (payload as any)._id;
+
+        const created = await MediaModel.create(payload);
+        return { ...created.toJSON(), id: created._id.toString(), _id: created._id.toString() } as unknown as MediaAsset;
+      } catch (err) {
+        console.warn('MongoDB media create notice:', err);
+      }
+    }
+    return {
       id: `media-${Date.now()}`,
       title: data.title || '',
       alt: data.alt || '',
@@ -551,17 +625,6 @@ export class EduNexaDatabaseService {
       url: data.url || '',
       aspectRatio: data.aspectRatio || '16/9',
     };
-
-    const conn = await connectToDatabase();
-    if (conn && isDbConnected()) {
-      try {
-        const created = await MediaModel.create(data);
-        return { ...created.toJSON(), id: created._id.toString() } as MediaAsset;
-      } catch (err) {
-        console.warn('MongoDB media create notice:', err);
-      }
-    }
-    return newAsset;
   }
 
   public async deleteMedia(id: string): Promise<boolean> {
@@ -570,7 +633,7 @@ export class EduNexaDatabaseService {
       try {
         if (mongoose.Types.ObjectId.isValid(id)) {
           const res = await MediaModel.findByIdAndDelete(id);
-          if (res) return true;
+          return Boolean(res);
         }
       } catch (err) {
         console.warn('MongoDB media delete notice:', err);

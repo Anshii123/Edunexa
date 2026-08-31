@@ -161,7 +161,7 @@ export default function AdminCoursesPage() {
       const res = await fetch('/api/admin/courses', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: c.id, active: !c.active }),
+        body: JSON.stringify({ ...c, active: !c.active }),
       });
       if (res.ok) {
         setCourses((prev) =>
@@ -171,6 +171,7 @@ export default function AdminCoursesPage() {
           type: 'success',
           message: `Course ${!c.active ? 'published' : 'unpublished'} successfully.`,
         });
+        await loadCourses();
       }
     } catch (e) {
       console.error(e);

@@ -23,7 +23,7 @@ export async function getServerSession(): Promise<{
       return { user: null, sessionUser: null };
     }
 
-    const user = userStore.findUserById(payload.userId);
+    const user = await userStore.findUserByIdAsync(payload.userId);
     if (!user || user.status !== 'active') {
       return { user: null, sessionUser: null };
     }

@@ -12,7 +12,7 @@ export async function GET() {
     );
   }
 
-  const enrolledCourseIds = user.profile.enrolledCourses && user.profile.enrolledCourses.length > 0
+  const enrolledCourseIds = user.profile?.enrolledCourses && user.profile.enrolledCourses.length > 0
     ? user.profile.enrolledCourses
     : ['course-1'];
 

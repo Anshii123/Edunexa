@@ -13,7 +13,7 @@ export async function GET() {
   }
 
   const allCourses = db.getCourses();
-  const enrolledCourseIds = user.profile.enrolledCourses && user.profile.enrolledCourses.length > 0
+  const enrolledCourseIds = user.profile?.enrolledCourses && user.profile.enrolledCourses.length > 0
     ? user.profile.enrolledCourses
     : ['course-1']; // default active cohort for demo student
 

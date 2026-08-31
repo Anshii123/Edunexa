@@ -88,11 +88,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' });
+      await fetch('/api/auth/logout', { method: 'POST', cache: 'no-store' });
     } catch (e) {
       console.error('Logout error', e);
     } finally {
       setUser(null);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('edunexa_user');
+        sessionStorage.removeItem('edunexa_user');
+      }
       router.push('/login');
       router.refresh();
     }

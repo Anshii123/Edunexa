@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     const name = body.name?.trim();
     const email = body.email?.trim()?.toLowerCase();
     const password = body.password;
-    const role = body.role === 'admin' ? 'admin' : 'student';
+    const role = 'student'; // Security: Public registration always creates student role
     const phone = body.phone?.trim() || '';
 
     // Validation

@@ -29,10 +29,10 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     // 1. Server-side Validation
-    const name = body.name?.trim();
+    const name = (body.name || body.studentName)?.trim();
     const email = body.email?.trim();
     const phone = body.phone?.trim();
-    const targetCourseTitle = body.targetCourseTitle?.trim() || 'General Admissions';
+    const targetCourseTitle = (body.targetCourseTitle || body.courseInterest)?.trim() || 'General Admissions';
     const targetCourseId = body.targetCourseId?.trim() || 'course-1';
     const currentEducation = body.currentEducation?.trim() || 'Not Specified';
     const city = body.city?.trim() || 'Not Specified';

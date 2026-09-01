@@ -218,6 +218,54 @@ class UserStore {
     }
   }
 
+  async updateUserProfileAsync(userId: string, updates: { name?: string; phone?: string; avatar?: string }): Promise<AuthUser | undefined> {
+    const user = await this.findUserByIdAsync(userId);
+    if (!user) return undefined;
+
+    if (!user.profile) {
+      user.profile = {};
+    }
+
+    if (updates.name && updates.name.trim().length >= 2) {
+      user.name = updates.name.trim();
+    }
+    if (updates.phone !== undefined) {
+      user.profile.phone = updates.phone.trim();
+    }
+    if (updates.avatar !== undefined) {
+      user.profile.avatar = updates.avatar.trim();
+    }
+
+    // Update in-memory array as well
+    const memUser = this.findUserById(userId) || this.findUserByEmail(user.email);
+    if (memUser) {
+      if (!memUser.profile) memUser.profile = {};
+      if (updates.name && updates.name.trim().length >= 2) memUser.name = updates.name.trim();
+      if (updates.phone !== undefined) memUser.profile.phone = updates.phone.trim();
+      if (updates.avatar !== undefined) memUser.profile.avatar = updates.avatar.trim();
+    }
+
+    try {
+      const conn = await connectToDatabase();
+      if (conn && isDbConnected()) {
+        const updateFields: any = {};
+        if (updates.name && updates.name.trim().length >= 2) updateFields.name = updates.name.trim();
+        if (updates.phone !== undefined) updateFields['profile.phone'] = updates.phone.trim();
+        if (updates.avatar !== undefined) updateFields['profile.avatar'] = updates.avatar.trim();
+
+        if (userId.match(/^[0-9a-fA-F]{24}$/)) {
+          await UserModel.findByIdAndUpdate(userId, { $set: updateFields });
+        } else {
+          await UserModel.findOneAndUpdate({ email: user.email }, { $set: updateFields });
+        }
+      }
+    } catch (err) {
+      console.warn('MongoDB updateUserProfileAsync notice:', err);
+    }
+
+    return user;
+  }
+
   getAllUsers(): AuthUser[] {
     return this.users;
   }

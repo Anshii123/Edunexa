@@ -52,17 +52,17 @@ class DataStore {
     return this.courses.filter(c => c.featured && c.active);
   }
 
-  addCourse(course: Omit<Course, 'id'>): Course {
+  addCourse(course: any): Course {
     const newCourse: Course = {
       ...course,
-      id: `course-${Date.now()}`,
+      id: course.id || course._id || `course-${Date.now()}`,
     };
     this.courses.unshift(newCourse);
     return newCourse;
   }
 
   updateCourse(id: string, updates: Partial<Course>): Course | null {
-    const idx = this.courses.findIndex(c => c.id === id);
+    const idx = this.courses.findIndex(c => c.id === id || (c as any)._id === id || c.slug === id.toLowerCase());
     if (idx === -1) return null;
     this.courses[idx] = { ...this.courses[idx], ...updates };
     return this.courses[idx];
@@ -70,7 +70,7 @@ class DataStore {
 
   deleteCourse(id: string): boolean {
     const initialLen = this.courses.length;
-    this.courses = this.courses.filter(c => c.id !== id);
+    this.courses = this.courses.filter(c => c.id !== id && (c as any)._id !== id && c.slug !== id.toLowerCase());
     return this.courses.length < initialLen;
   }
 

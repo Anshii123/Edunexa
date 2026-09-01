@@ -149,7 +149,9 @@ export class EduNexaDatabaseService {
 
         const created = await CourseModel.create(payload);
         const json = created.toJSON();
-        return { ...json, id: created._id.toString(), _id: created._id.toString() } as unknown as Course;
+        const res = { ...json, id: created._id.toString(), _id: created._id.toString() } as unknown as Course;
+        inMemoryDb.addCourse(res);
+        return res;
       } catch (err) {
         console.warn('MongoDB course create notice:', err);
       }
@@ -173,7 +175,9 @@ export class EduNexaDatabaseService {
         }
 
         if (updatedDoc) {
-          return { ...updatedDoc, id: (updatedDoc as any)._id.toString(), _id: (updatedDoc as any)._id.toString() } as unknown as Course;
+          const res = { ...updatedDoc, id: (updatedDoc as any)._id.toString(), _id: (updatedDoc as any)._id.toString() } as unknown as Course;
+          inMemoryDb.updateCourse(id, res);
+          return res;
         }
       } catch (err) {
         console.warn('MongoDB course update notice:', err);
@@ -183,21 +187,21 @@ export class EduNexaDatabaseService {
   }
 
   public async deleteCourse(id: string): Promise<boolean> {
+    let mongoDeleted = false;
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
-        let deleted = null;
-        if (mongoose.Types.ObjectId.isValid(id)) {
-          deleted = await CourseModel.findByIdAndDelete(id);
-        } else {
-          deleted = await CourseModel.findOneAndDelete({ slug: id });
-        }
-        return Boolean(deleted);
+        const query = mongoose.Types.ObjectId.isValid(id)
+          ? { $or: [{ _id: id }, { slug: id.toLowerCase() }] }
+          : { slug: id.toLowerCase() };
+        const deleted = await CourseModel.findOneAndDelete(query);
+        mongoDeleted = Boolean(deleted);
       } catch (err) {
         console.warn('MongoDB course delete notice:', err);
       }
     }
-    return inMemoryDb.deleteCourse(id);
+    const memDeleted = inMemoryDb.deleteCourse(id);
+    return mongoDeleted || memDeleted;
   }
 
   // ==========================================
@@ -255,18 +259,20 @@ export class EduNexaDatabaseService {
   }
 
   public async deleteFaculty(id: string): Promise<boolean> {
+    let mongoDeleted = false;
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
         if (mongoose.Types.ObjectId.isValid(id)) {
           const res = await FacultyModel.findByIdAndDelete(id);
-          return Boolean(res);
+          mongoDeleted = Boolean(res);
         }
       } catch (err) {
         console.warn('MongoDB faculty delete notice:', err);
       }
     }
-    return inMemoryDb.deleteFaculty(id);
+    const memDeleted = inMemoryDb.deleteFaculty(id);
+    return mongoDeleted || memDeleted;
   }
 
   // ==========================================
@@ -379,6 +385,7 @@ export class EduNexaDatabaseService {
   }
 
   public async deleteAdmission(id: string): Promise<boolean> {
+    let mongoDeleted = false;
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
@@ -388,12 +395,13 @@ export class EduNexaDatabaseService {
         } else {
           deleted = await AdmissionModel.findOneAndDelete({ referenceId: id });
         }
-        return Boolean(deleted);
+        mongoDeleted = Boolean(deleted);
       } catch (err) {
         console.warn('MongoDB admission delete notice:', err);
       }
     }
-    return inMemoryDb.deleteLead(id);
+    const memDeleted = inMemoryDb.deleteLead(id);
+    return mongoDeleted || memDeleted;
   }
 
   // ==========================================
@@ -501,18 +509,20 @@ export class EduNexaDatabaseService {
   }
 
   public async deleteNotice(id: string): Promise<boolean> {
+    let mongoDeleted = false;
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
         if (mongoose.Types.ObjectId.isValid(id)) {
           const res = await NoticeModel.findByIdAndDelete(id);
-          return Boolean(res);
+          mongoDeleted = Boolean(res);
         }
       } catch (err) {
         console.warn('MongoDB notice delete notice:', err);
       }
     }
-    return inMemoryDb.deleteNotice(id);
+    const memDeleted = inMemoryDb.deleteNotice(id);
+    return mongoDeleted || memDeleted;
   }
 
   // ==========================================
@@ -571,18 +581,20 @@ export class EduNexaDatabaseService {
   }
 
   public async deleteEvent(id: string): Promise<boolean> {
+    let mongoDeleted = false;
     const conn = await connectToDatabase();
     if (conn && isDbConnected()) {
       try {
         if (mongoose.Types.ObjectId.isValid(id)) {
           const res = await EventModel.findByIdAndDelete(id);
-          return Boolean(res);
+          mongoDeleted = Boolean(res);
         }
       } catch (err) {
         console.warn('MongoDB event delete notice:', err);
       }
     }
-    return inMemoryDb.deleteEvent(id);
+    const memDeleted = inMemoryDb.deleteEvent(id);
+    return mongoDeleted || memDeleted;
   }
 
   // ==========================================

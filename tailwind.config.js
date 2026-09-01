@@ -80,24 +80,10 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: [
-          'Times New Roman',
-          'Times',
-          'Georgia',
-          'serif',
-        ],
-        display: [
-          'Times New Roman',
-          'Times',
-          'Georgia',
-          'serif',
-        ],
-        serif: [
-          'Times New Roman',
-          'Times',
-          'Georgia',
-          'serif',
-        ],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        display: ['"Outfit"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
       boxShadow: {
         'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.04)',

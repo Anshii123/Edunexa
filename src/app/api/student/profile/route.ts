@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from '@/lib/auth/session';
 import { userStore } from '@/lib/auth/userStore';
 
+import { createSessionToken, SESSION_COOKIE_NAME, SESSION_MAX_AGE_SECONDS } from '@/lib/auth/security';
+
 export async function GET() {
   const { user } = await getServerSession();
 
@@ -47,32 +49,52 @@ export async function PUT(request: Request) {
     const phone = body.phone?.trim();
     const avatar = body.avatar?.trim();
 
-    if (name && name.length >= 2) {
-      user.name = name;
-    }
-    if (phone) {
-      user.profile.phone = phone;
-    }
-    if (avatar) {
-      user.profile.avatar = avatar;
+    const updatedUser = await userStore.updateUserProfileAsync(user.id, { name, phone, avatar });
+
+    if (!updatedUser) {
+      return NextResponse.json(
+        { success: false, error: 'User profile not found.' },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({
+    // Refresh session token so header/cookie has new user name
+    const token = createSessionToken({
+      userId: updatedUser.id,
+      email: updatedUser.email,
+      role: updatedUser.role,
+      name: updatedUser.name,
+    });
+
+    const response = NextResponse.json({
       success: true,
       message: 'Profile updated successfully.',
       data: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        studentId: user.profile.studentId,
-        batch: user.profile.batch,
-        phone: user.profile.phone,
-        avatar: user.profile.avatar,
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        studentId: updatedUser.profile?.studentId || 'EDN-2026-0842',
+        batch: updatedUser.profile?.batch || 'STEM 2026-28 Batch Alpha',
+        phone: updatedUser.profile?.phone || '',
+        avatar: updatedUser.profile?.avatar || '',
       },
     });
-  } catch (error) {
+
+    response.cookies.set({
+      name: SESSION_COOKIE_NAME,
+      value: token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: SESSION_MAX_AGE_SECONDS,
+      path: '/',
+    });
+
+    return response;
+  } catch (error: any) {
+    console.error('CRITICAL PROFILE UPDATE ERROR:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to update profile details.' },
+      { success: false, error: error?.message || 'Failed to update profile details.' },
       { status: 500 }
     );
   }

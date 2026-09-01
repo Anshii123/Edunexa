@@ -24,9 +24,10 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    if (!body.title || !body.date || !body.type) {
+    const eventType = body.type || body.category || 'Workshop';
+    if (!body.title || !body.date) {
       return NextResponse.json(
-        { success: false, error: 'Validation Error: Title, date, and type are required.' },
+        { success: false, error: 'Validation Error: Title and date are required.' },
         { status: 400 }
       );
     }
@@ -34,7 +35,7 @@ export async function POST(request: Request) {
     const newEvent = await dbService.createEvent({
       title: body.title.trim(),
       subtitle: body.subtitle?.trim() || '',
-      type: body.type,
+      type: eventType,
       date: body.date,
       time: body.time || '10:00 AM – 1:00 PM EST',
       location: body.location || 'Main Innovation Amphitheater',

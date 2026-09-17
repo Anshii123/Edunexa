@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { 
-  User, 
-  Phone, 
-  GraduationCap, 
-  Save, 
-  CheckCircle2, 
-  AlertCircle, 
-  Loader2 
+import {
+  User,
+  Phone,
+  GraduationCap,
+  Save,
+  CheckCircle2,
+  AlertCircle,
+  Loader2
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth/AuthContext';
 
@@ -89,10 +89,6 @@ export default function StudentProfilePage() {
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Header */}
       <div className="space-y-2">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-stone-100 border border-stone-200 text-stone-700 text-xs font-semibold uppercase tracking-wider font-mono">
-          <User className="w-3.5 h-3.5 text-brand-800" />
-          <span>Identity & Academic Credentials</span>
-        </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-900 font-display tracking-tight">
           Student Profile & Settings
         </h1>
@@ -103,11 +99,10 @@ export default function StudentProfilePage() {
 
       {message && (
         <div
-          className={`p-4 rounded-2xl border text-xs flex items-center gap-2.5 animate-fade-in ${
-            message.type === 'success'
+          className={`p-4 rounded-2xl border text-xs flex items-center gap-2.5 animate-fade-in ${message.type === 'success'
               ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
               : 'bg-rose-50 border-rose-200 text-rose-800'
-          }`}
+            }`}
         >
           {message.type === 'success' ? (
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />

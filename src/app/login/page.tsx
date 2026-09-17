@@ -4,18 +4,20 @@ import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/auth/AuthContext';
-import { 
-  GraduationCap, 
-  Lock, 
-  Mail, 
-  Eye, 
-  EyeOff, 
-  ArrowRight, 
-  Loader2, 
-  AlertCircle, 
-  Sparkles, 
+import {
+  GraduationCap,
+  Lock,
+  Mail,
+  Eye,
+  EyeOff,
+  ArrowRight,
+  Loader2,
+  AlertCircle,
+  Sparkles,
+  ShieldCheck,
   CheckCircle2
 } from 'lucide-react';
+import { EduImage } from '@/components/ui/EduImage';
 
 function LoginForm() {
   const router = useRouter();
@@ -74,49 +76,49 @@ function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md space-y-8">
-      {/* Header */}
-      <div className="space-y-2 text-center sm:text-left">
-        <Link href="/" className="inline-flex items-center gap-2.5 mb-2">
-          <div className="w-9 h-9 rounded-xl bg-brand-900 flex items-center justify-center shadow-sm">
-            <GraduationCap className="w-5 h-5 text-white" />
+    <div className="w-full max-w-md space-y-7">
+      {/* Brand Header */}
+      <div className="space-y-2">
+        <Link href="/" className="inline-flex items-center gap-2.5 mb-1 group">
+          <div className="w-9 h-9 rounded-xl bg-[#0F172A] text-white flex items-center justify-center shadow-xs group-hover:bg-[#2563EB] transition-colors">
+            <GraduationCap className="w-5 h-5" />
           </div>
-          <span className="text-xl font-bold text-charcoal-900 font-display">
-            Edu<span className="text-brand-900">Nexa</span>
+          <span className="text-xl font-bold text-[#0F172A] font-display">
+            SKILLORA<span className="text-[#2563EB]">.</span>
           </span>
         </Link>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-900 font-display tracking-tight">
-          Welcome to EduNexa Portal
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#0F172A] font-display tracking-tight">
+          Welcome to Skillora
         </h1>
-        <p className="text-xs sm:text-sm text-stone-500">
-          Sign in to access your student lectures, test analytics, or admin governance suite.
+        <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
+          Sign in to access your student lectures, test analytics, or educator workspace.
         </p>
       </div>
 
-      {/* Demo Credentials Helper Pill */}
-      <div className="p-4 rounded-2xl bg-stone-100 border border-stone-200 space-y-2.5">
-        <div className="flex items-center justify-between text-xs font-bold text-stone-700 font-mono">
-          <span className="flex items-center gap-1.5 text-brand-900">
-            <Sparkles className="w-3.5 h-3.5 text-amber-700" /> Instant Demo Accounts:
+      {/* Demo Credentials Quick Fill */}
+      <div className="p-4 rounded-2xl bg-[#F8F7F4] border border-black/[0.06] space-y-2.5">
+        <div className="flex items-center justify-between text-xs font-semibold text-[#0F172A]">
+          <span className="flex items-center gap-1.5 text-[#2563EB]">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" /> Demo Accounts:
           </span>
-          <span className="text-[10px] text-stone-500">1-Click Fill</span>
+          <span className="text-[11px] text-[#64748B]">1-Click Autofill</span>
         </div>
         <div className="grid grid-cols-2 gap-2">
           <button
             type="button"
             onClick={() => handleQuickDemo('student@edunexa.edu', 'Student@1234')}
-            className="px-3 py-2 rounded-xl bg-white border border-stone-200 hover:border-emerald-600 text-left transition-all group shadow-sm"
+            className="px-3 py-2 rounded-xl bg-white border border-black/[0.08] hover:border-[#2563EB] text-left transition-all group shadow-xs"
           >
-            <div className="text-[11px] font-bold text-emerald-800 font-mono">Student Account</div>
-            <div className="text-[10px] text-stone-500 truncate font-mono">student@edunexa.edu</div>
+            <div className="text-[11px] font-bold text-emerald-800">Student Account</div>
+            <div className="text-[10px] text-[#64748B] truncate font-mono">student@edunexa.edu</div>
           </button>
           <button
             type="button"
             onClick={() => handleQuickDemo('admin@edunexa.edu', 'Admin@1234')}
-            className="px-3 py-2 rounded-xl bg-white border border-stone-200 hover:border-amber-600 text-left transition-all group shadow-sm"
+            className="px-3 py-2 rounded-xl bg-white border border-black/[0.08] hover:border-[#2563EB] text-left transition-all group shadow-xs"
           >
-            <div className="text-[11px] font-bold text-amber-800 font-mono">Admin Account</div>
-            <div className="text-[10px] text-stone-500 truncate font-mono">admin@edunexa.edu</div>
+            <div className="text-[11px] font-bold text-[#2563EB]">Teacher / Admin</div>
+            <div className="text-[10px] text-[#64748B] truncate font-mono">admin@edunexa.edu</div>
           </button>
         </div>
       </div>
@@ -132,11 +134,11 @@ function LoginForm() {
       {/* Login Form */}
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         <div>
-          <label className="block text-xs font-semibold text-stone-700 mb-1.5">
+          <label className="block text-xs font-medium text-[#0F172A] mb-1.5">
             Email Address
           </label>
           <div className="relative">
-            <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Mail className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="email"
               value={email}
@@ -144,25 +146,25 @@ function LoginForm() {
               placeholder="e.g. student@edunexa.edu"
               required
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-stone-300 text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none focus:border-brand-800 focus:ring-1 focus:ring-brand-800 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-black/[0.1] text-[#0F172A] text-xs placeholder-[#94A3B8] focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-all"
             />
           </div>
         </div>
 
         <div>
           <div className="flex items-center justify-between mb-1.5">
-            <label className="block text-xs font-semibold text-stone-700">
+            <label className="block text-xs font-medium text-[#0F172A]">
               Password
             </label>
             <Link
               href="/admissions"
-              className="text-[11px] text-brand-900 hover:text-brand-700 font-medium transition-colors"
+              className="text-[11px] text-[#2563EB] hover:underline font-medium transition-colors"
             >
-              Forgot Password?
+              Need help?
             </Link>
           </div>
           <div className="relative">
-            <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Lock className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type={showPassword ? 'text' : 'password'}
               value={password}
@@ -170,12 +172,12 @@ function LoginForm() {
               placeholder="Enter your account password"
               required
               disabled={isLoading}
-              className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-white border border-stone-300 text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none focus:border-brand-800 focus:ring-1 focus:ring-brand-800 transition-all"
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-white border border-black/[0.1] text-[#0F172A] text-xs placeholder-[#94A3B8] focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-all"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="p-1 text-stone-400 hover:text-stone-700 absolute right-3 top-1/2 -translate-y-1/2"
+              className="p-1 text-[#94A3B8] hover:text-[#0F172A] absolute right-3 top-1/2 -translate-y-1/2"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -186,16 +188,16 @@ function LoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3.5 px-4 rounded-xl font-bold bg-brand-900 hover:bg-brand-800 disabled:opacity-60 text-white shadow-sm flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-all mt-2"
+          className="w-full py-3 px-4 rounded-xl font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-60 text-white shadow-sm flex items-center justify-center gap-2 text-xs transition-all mt-2"
         >
           {isLoading ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Authenticating...</span>
+              <span>Signing in...</span>
             </>
           ) : (
             <>
-              <span>Sign In to EduNexa</span>
+              <span>Sign In to Skillora</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </>
           )}
@@ -203,9 +205,9 @@ function LoginForm() {
       </form>
 
       {/* Footer Registration Link */}
-      <div className="pt-4 border-t border-stone-200/80 text-center text-xs text-stone-500">
-        <span>Don't have an EduNexa account yet? </span>
-        <Link href="/register" className="font-bold text-brand-900 hover:text-brand-700 underline ml-1">
+      <div className="pt-4 border-t border-black/[0.06] text-center text-xs text-[#64748B]">
+        <span>Don't have a Skillora profile yet? </span>
+        <Link href="/register" className="font-semibold text-[#2563EB] hover:underline ml-1">
           Create Student Profile
         </Link>
       </div>
@@ -215,46 +217,53 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-[#FBF9F5] flex items-center justify-center p-4 sm:p-8 pt-24 pb-12">
-      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white rounded-3xl p-6 sm:p-12 border border-stone-200/90 shadow-card relative overflow-hidden">
+    <div className="min-h-screen bg-[#FBFBF9] flex items-center justify-center p-4 sm:p-8 pt-28 pb-16 font-sans">
+      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-white rounded-3xl p-6 sm:p-12 border border-black/[0.08] shadow-sm relative overflow-hidden">
+        
         {/* Left Form Area (7 cols) */}
         <div className="lg:col-span-7 py-2">
-          <Suspense fallback={<div className="p-8 text-center text-stone-400">Loading Portal...</div>}>
+          <Suspense fallback={<div className="p-8 text-center text-[#64748B]">Loading Portal...</div>}>
             <LoginForm />
           </Suspense>
         </div>
 
-        {/* Right Feature Spotlight Area (5 cols) */}
-        <div className="lg:col-span-5 hidden lg:block p-8 rounded-2xl bg-[#F4F1EA] border border-stone-200/90 space-y-6">
+        {/* Right Feature Area (5 cols) in Light Warm Palette */}
+        <div className="lg:col-span-5 hidden lg:block p-8 rounded-2xl bg-[#F8F7F4] border border-black/[0.06] space-y-6">
+          <div className="rounded-xl overflow-hidden border border-black/[0.08] shadow-xs">
+            <EduImage
+              src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80"
+              alt="Quiet library study booth at Skillora"
+              aspectRatio="4/3"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
           <div className="space-y-2">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-brand-800 font-mono">
-              EduNexa Unified Identity
-            </span>
-            <h3 className="text-xl font-bold text-charcoal-900 font-display tracking-tight">
-              Enterprise Academic Security & Analytics
+            <h3 className="text-lg font-bold text-[#0F172A] font-display">
+              Skillora Unified Identity
             </h3>
-            <p className="text-xs text-stone-600 leading-relaxed">
-              Your EduNexa account grants synchronized access across smart amphitheaters, 24/7 LMS archives, live test rankings, and faculty doubt desks.
+            <p className="text-xs text-[#475569] leading-relaxed">
+              Your account grants synchronized access to lecture streams, 1-on-1 twilight doubt desks, verified problem sets, and diagnostic rank analytics.
             </p>
           </div>
 
-          <div className="space-y-3 pt-2 text-xs text-stone-700">
+          <div className="space-y-2.5 pt-2 text-xs text-[#334155] border-t border-black/[0.06]">
             <div className="flex items-center gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>PBKDF2 Salted Cryptographic Authentication</span>
+              <span>Salted cryptographic authentication</span>
             </div>
             <div className="flex items-center gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>Strict Role-Based Admin & Student Boundaries</span>
+              <span>Strict role-based privacy boundaries</span>
             </div>
             <div className="flex items-center gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>Encrypted HTTP-Only Session Cookies</span>
+              <span>24/7 access to archived study notes</span>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
 }
-

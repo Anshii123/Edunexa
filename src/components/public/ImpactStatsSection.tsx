@@ -1,77 +1,53 @@
 import React from 'react';
 import { HOMEPAGE_DATA } from '@/lib/data/homepage';
-import { Trophy } from 'lucide-react';
 
 export function ImpactStatsSection() {
   const data = HOMEPAGE_DATA.impactStats;
 
-  const accentStyles = {
-    emerald: {
-      text: 'text-emerald-800',
-    },
-    gold: {
-      text: 'text-amber-800',
-    },
-    brand: {
-      text: 'text-brand-900',
-    },
-    purple: {
-      text: 'text-brand-950',
-    },
-  };
-
   return (
-    <section className="relative py-20 bg-[#F4F1EA] border-y border-stone-200/90">
+    <section className="relative py-20 lg:py-24 bg-[#F8F7F4] border-b border-black/[0.06]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white border border-stone-200 text-stone-700 text-xs font-semibold uppercase tracking-wider font-mono">
-            <Trophy className="w-3.5 h-3.5 text-amber-700" />
-            <span>{data.badge}</span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-charcoal-900 font-display tracking-tight">
+        <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0F172A] font-display tracking-tight">
             {data.title}
           </h2>
 
-          <p className="text-base text-stone-600 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-base text-[#475569] leading-relaxed max-w-2xl mx-auto font-normal">
             {data.subtitle}
           </p>
         </div>
 
         {/* 4-Stat Metric Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {data.metrics.map((item, i) => {
-            const style = accentStyles[item.accent];
-            return (
-              <div
-                key={i}
-                className="bg-white rounded-2xl p-6 sm:p-7 border border-stone-200/90 shadow-card flex flex-col justify-between space-y-4 hover:shadow-card-hover transition-all"
-              >
-                <div>
-                  <div className="flex items-baseline gap-1">
-                    <span className={`text-4xl sm:text-5xl font-extrabold font-display tracking-tight ${style.text}`}>
-                      {item.number}
-                    </span>
-                    <span className={`text-2xl font-bold font-display ${style.text}`}>
-                      {item.suffix}
-                    </span>
-                  </div>
-
-                  <h3 className="text-base font-bold text-charcoal-900 mt-3 font-display">
-                    {item.label}
-                  </h3>
+          {data.metrics.map((item, i) => (
+            <div
+              key={i}
+              className="bg-white rounded-2xl p-6 sm:p-7 border border-black/[0.08] shadow-xs flex flex-col justify-between space-y-4 hover:border-[#2563EB]/40 hover:-translate-y-1 transition-all duration-200 group"
+            >
+              <div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl sm:text-5xl font-bold font-display tracking-tight text-[#0F172A] group-hover:text-[#2563EB] transition-colors">
+                    {item.number}
+                  </span>
+                  <span className="text-2xl font-bold font-display text-[#2563EB]">
+                    {item.suffix}
+                  </span>
                 </div>
 
-                <p className="text-xs text-stone-600 leading-relaxed border-t border-stone-100 pt-3">
-                  {item.description}
-                </p>
+                <h3 className="text-base font-semibold text-[#0F172A] mt-3 font-display">
+                  {item.label}
+                </h3>
               </div>
-            );
-          })}
+
+              <p className="text-xs text-[#64748B] leading-relaxed border-t border-black/[0.06] pt-3 font-normal">
+                {item.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
-

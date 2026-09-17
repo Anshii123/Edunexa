@@ -78,22 +78,21 @@ export interface HomepageData {
 
 export const HOMEPAGE_DATA: HomepageData = {
   introduction: {
-    badge: 'Institutional Heritage & Pedagogy',
-    headline: 'Where Academic Rigor Meets Transformative Mentorship',
-    subheadline: 'For over 18 years, EduNexa has engineered a benchmark pedagogy for aspiring Olympiad rankers, future physicians, and software pioneers.',
+    badge: 'Our Philosophy • Est. 2008',
+    headline: 'Where genuine curiosity meets dedicated mentorship.',
+    subheadline: 'Master complex concepts from first principles with daily 1-on-1 faculty support — built for students who want to truly understand, not just memorize.',
     paragraphs: [
-      'EduNexa was founded with a singular conviction: exceptional results are never accidental. They are the deliberate outcome of structured first-principles learning, obsessive doubt-clearance culture, and mentors who teach with relentless passion.',
-      'Our integrated campus model combines smart tiered amphitheaters, advanced 3D anatomical dissection suites, and high-concurrency cloud computing pods with continuous AI-backed performance analytics.',
+      'For over 18 years, EduNexa has guided ambitious learners in small cohorts. From morning masterclasses to late-evening doubt sessions in our quiet study pods, our educators teach with patience, rigor, and genuine care.',
     ],
     stats: [
-      { label: 'Olympiad Gold Medalists', value: '45+', detail: 'International STEM honors' },
-      { label: 'Top 100 National Ranks', value: '120+', detail: 'Across competitive entrances' },
-      { label: 'Faculty Pedigree', value: 'Top 1%', detail: 'Ex-MIT, Stanford, AIIMS' },
+      { label: 'Years of Pedagogy', value: '18+', detail: '30,000+ alumni guided' },
+      { label: 'Olympiad Medals', value: '45+', detail: 'International STEM honors' },
+      { label: 'Master Faculty', value: 'Top 1%', detail: 'Ex-MIT, Stanford & AIIMS' },
     ],
     images: {
       main: MEDIA_REGISTRY.students.collaborativeGroup,
       secondary: MEDIA_REGISTRY.students.peerDiscussion,
-      caption: 'Collaborative learning seminar at the Innovation Quad Lecture Pod A-102',
+      caption: 'Students working through collaborative problem sets in our central study lounge',
     },
   },
   impactStats: {

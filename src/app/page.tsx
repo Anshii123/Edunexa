@@ -1,51 +1,43 @@
 import React from 'react';
 import { CinematicHero } from '@/components/public/CinematicHero';
 import { IntroductionSection } from '@/components/public/IntroductionSection';
-import { ImpactStatsSection } from '@/components/public/ImpactStatsSection';
-import { FeaturedProgramsSection } from '@/components/public/FeaturedProgramsSection';
-import { WhyChooseSection } from '@/components/public/WhyChooseSection';
 import { LearningExperienceSection } from '@/components/public/LearningExperienceSection';
-import { FacultyShowcaseSection } from '@/components/public/FacultyShowcaseSection';
+import { FeaturedProgramsSection } from '@/components/public/FeaturedProgramsSection';
+import { StudentExperienceSection } from '@/components/public/StudentExperienceSection';
+import { TeacherExperienceSection } from '@/components/public/TeacherExperienceSection';
+import { CampusCommunitySection } from '@/components/public/CampusCommunitySection';
 import { SuccessStoriesSection } from '@/components/public/SuccessStoriesSection';
-import { UpcomingEventsSection } from '@/components/public/UpcomingEventsSection';
 import { AdmissionsCtaSection } from '@/components/public/AdmissionsCtaSection';
-import { ContactPreviewSection } from '@/components/public/ContactPreviewSection';
 
 export default function HomePage() {
   return (
-    <div className="space-y-0 pb-0">
-      {/* Cinematic Hero (Scroll-driven video scrubbing - Unchanged) */}
+    <div className="flex flex-col min-h-screen bg-[#FBFBF9]">
+      {/* 1. Hero: Preserved Video + Clear Skillora Brand Introduction */}
       <CinematicHero />
 
-      {/* 1. EduNexa Introduction */}
+      {/* 2. Introduction: Strong Statement & Pedagogy Philosophy */}
       <IntroductionSection />
 
-      {/* 2. Impact Statistics */}
-      <ImpactStatsSection />
-
-      {/* 3. Featured Programs */}
-      <FeaturedProgramsSection />
-
-      {/* 4. Why Choose EduNexa */}
-      <WhyChooseSection />
-
-      {/* 5. Learning Experience */}
+      {/* 3. Learning Experience: Asymmetric Facility & Pedagogy Compositions */}
       <LearningExperienceSection />
 
-      {/* 6. Expert Faculty */}
-      <FacultyShowcaseSection />
+      {/* 4. Courses & Cohorts: Featured Flagship Course + Supporting Curricula */}
+      <FeaturedProgramsSection />
 
-      {/* 7. Student Success Stories */}
+      {/* 5. Student Experience: Learning, Practice, Interaction, Progress & Peer Culture */}
+      <StudentExperienceSection />
+
+      {/* 6. Teacher Experience: Course Authoring, Mentorship Desks & Diagnostic Analytics */}
+      <TeacherExperienceSection />
+
+      {/* 7. Campus & Community: Authentic Photography of Collaboration & Student Life */}
+      <CampusCommunitySection />
+
+      {/* 8. Success Stories: Student Hall of Fame & Outcomes */}
       <SuccessStoriesSection />
 
-      {/* 8. Upcoming Events */}
-      <UpcomingEventsSection />
-
-      {/* 9. Admissions Call to Action */}
+      {/* 9. Final CTA: Clean, Minimal Admissions & Scholarship Action */}
       <AdmissionsCtaSection />
-
-      {/* 10. Contact Preview */}
-      <ContactPreviewSection />
     </div>
   );
 }

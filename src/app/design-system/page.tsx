@@ -29,16 +29,16 @@ import {
   ErrorState,
   Alert,
 } from '@/components/ui';
-import { 
-  Sparkles, 
-  ArrowRight, 
-  Search, 
-  Mail, 
-  Lock, 
-  BookOpen, 
-  GraduationCap, 
-  ShieldCheck, 
-  Award, 
+import {
+  Sparkles,
+  ArrowRight,
+  Search,
+  Mail,
+  Lock,
+  BookOpen,
+  GraduationCap,
+  ShieldCheck,
+  Award,
   RotateCcw,
   CheckCircle2
 } from 'lucide-react';
@@ -56,19 +56,16 @@ export default function DesignSystemPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
       {/* Design System Header */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
-        <Badge variant="brand" size="lg" dot pulse>
-          EduNexa Design System v1.0
-        </Badge>
-        <h1 className="type-display text-white font-display">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-navy-900 tracking-tight font-display">
           Design Language & Components
         </h1>
-        <p className="type-body-lg text-slate-300">
+        <p className="text-lg text-slate-600">
           A cohesive, architectural, and accessible component ecosystem crafted for premium educational academies, coaching institutes, and professional training centers.
         </p>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="sticky top-20 z-30 py-3 bg-[#090D16]/90 backdrop-blur-md border-y border-slate-800">
+      <div className="sticky top-20 z-30 py-3 bg-white/90 backdrop-blur-md border-y border-black/[0.08] shadow-sm">
         <Tabs
           activeId={activeTab}
           onChange={setActiveTab}
@@ -93,61 +90,54 @@ export default function DesignSystemPage() {
           <SectionHeading
             eyebrow="Typography Architecture"
             title="Type Scale & Hierarchical Roles"
-            description="Precision typographic hierarchy pairing Plus Jakarta Sans and Outfit for high-legibility educational content."
+            description="Precision typographic hierarchy pairing Space Grotesk for architectural headlines and Inter for high-legibility educational content."
             align="left"
+            theme="light"
           />
 
           <Card variant="default">
-            <CardContent className="space-y-8 divide-y divide-slate-800/80">
+            <CardContent className="space-y-8 divide-y divide-black/[0.08]">
               <div className="pt-4 space-y-2">
-                <div className="type-eyebrow text-brand-400">Display / Hero Headline</div>
-                <div className="type-display text-white font-display">
+                <div className="text-xs uppercase tracking-wider font-bold text-indigo-600">Display / Hero Headline</div>
+                <div className="text-3xl sm:text-5xl font-bold text-navy-900 font-display">
                   Architecting Future Rankers & Scholars
                 </div>
-                <p className="type-caption">font-size: 2.5rem – 4rem | font-weight: 800 | tracking: -0.03em</p>
+                <p className="text-xs text-slate-500 font-mono">font-family: Space Grotesk | font-size: 2.5rem – 4rem | font-weight: 800</p>
               </div>
 
               <div className="pt-6 space-y-2">
-                <div className="type-eyebrow text-brand-400">Heading 1 / Page Title</div>
-                <div className="type-h1 text-white font-display">
+                <div className="text-xs uppercase tracking-wider font-bold text-indigo-600">Heading 1 / Page Title</div>
+                <div className="text-2xl sm:text-4xl font-bold text-navy-900 font-display">
                   Advanced STEM & Medical Sciences Foundation
                 </div>
-                <p className="type-caption">font-size: 2rem – 2.75rem | font-weight: 700 | tracking: -0.025em</p>
+                <p className="text-xs text-slate-500 font-mono">font-family: Space Grotesk | font-size: 2rem – 2.75rem | font-weight: 700</p>
               </div>
 
               <div className="pt-6 space-y-2">
-                <div className="type-eyebrow text-brand-400">Heading 2 / Section Title</div>
-                <div className="type-h2 text-white font-display">
+                <div className="text-xs uppercase tracking-wider font-bold text-indigo-600">Heading 2 / Section Title</div>
+                <div className="text-xl sm:text-3xl font-bold text-navy-900 font-display">
                   Distinguished Faculty & Research Mentors
                 </div>
-                <p className="type-caption">font-size: 1.5rem – 2rem | font-weight: 700</p>
+                <p className="text-xs text-slate-500 font-mono">font-family: Space Grotesk | font-size: 1.5rem – 2rem | font-weight: 700</p>
               </div>
 
               <div className="pt-6 space-y-2">
-                <div className="type-eyebrow text-brand-400">Heading 3 / Card Header</div>
-                <div className="type-h3 text-white font-display">
+                <div className="text-xs uppercase tracking-wider font-bold text-indigo-600">Heading 3 / Card Header</div>
+                <div className="text-lg sm:text-xl font-bold text-navy-900 font-display">
                   Rotational Mechanics & Differential Calculus
                 </div>
-                <p className="type-caption">font-size: 1.25rem | font-weight: 600</p>
+                <p className="text-xs text-slate-500 font-mono">font-family: Space Grotesk | font-size: 1.25rem | font-weight: 600</p>
               </div>
 
               <div className="pt-6 space-y-2">
-                <div className="type-eyebrow text-brand-400">Heading 4 / Item Subtitle</div>
-                <div className="type-h4 text-white">
-                  Executive Business Intelligence Capstone
-                </div>
-                <p className="type-caption">font-size: 1.05rem | font-weight: 600</p>
-              </div>
-
-              <div className="pt-6 space-y-2">
-                <div className="type-eyebrow text-brand-400">Body Large & Standard Body</div>
-                <p className="type-body-lg">
+                <div className="text-xs uppercase tracking-wider font-bold text-indigo-600">Body Large & Standard Body</div>
+                <p className="text-lg text-slate-700 font-sans">
                   Body Large: Our curriculum is designed with modular problem sets that develop first-principles reasoning and clinical diagnostics.
                 </p>
-                <p className="type-body">
+                <p className="text-base text-slate-600 font-sans">
                   Standard Body: Every student receives an assigned mentor who reviews weekly test metrics and tailors remedial problem modules.
                 </p>
-                <p className="type-body-sm">
+                <p className="text-sm text-slate-500 font-sans">
                   Body Small: Diagnostic assessments are conducted every Saturday under timed examination conditions.
                 </p>
               </div>
@@ -156,6 +146,7 @@ export default function DesignSystemPage() {
         </section>
       )}
 
+
       {/* =========================================================================
          2. COLOR SYSTEM
          ========================================================================= */}
@@ -163,96 +154,75 @@ export default function DesignSystemPage() {
         <section className="space-y-10">
           <SectionHeading
             eyebrow="Curated Palette"
-            title="Harmonious Color Architecture"
-            description="Deep obsidian foundation with intelligent electric indigo primary, merit amber, and status indicators."
+            title="Harmonious 2026 Color Architecture"
+            description="Deep Midnight Navy foundation, Warm Off-White canvas, Rich Indigo primary, Electric Violet accents, and Soft Cyan highlights."
             align="left"
+            theme="light"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Obsidian Base */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Deep Midnight Navy */}
             <Card variant="default">
               <CardHeader>
-                <CardTitle>Foundation</CardTitle>
-                <CardDescription>Obsidian & Midnight Slate</CardDescription>
+                <CardTitle>Midnight Navy</CardTitle>
+                <CardDescription>Hero & Contrast Surfaces (20%)</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="h-14 rounded-xl bg-obsidian-900 border border-slate-700 flex items-center px-4 text-xs font-mono text-slate-300 justify-between">
-                  <span>Base</span>
-                  <span>#090D16</span>
+                <div className="h-14 rounded-xl bg-navy-950 flex items-center px-4 text-xs font-mono text-white justify-between shadow-md">
+                  <span>Navy 950</span>
+                  <span>#0B1020</span>
                 </div>
-                <div className="h-14 rounded-xl bg-slate-900 border border-slate-700 flex items-center px-4 text-xs font-mono text-slate-300 justify-between">
-                  <span>Surface</span>
+                <div className="h-14 rounded-xl bg-navy-900 flex items-center px-4 text-xs font-mono text-white justify-between">
+                  <span>Navy 900</span>
                   <span>#0F172A</span>
                 </div>
-                <div className="h-14 rounded-xl bg-slate-850 border border-slate-700 flex items-center px-4 text-xs font-mono text-slate-300 justify-between">
-                  <span>Elevated</span>
-                  <span>#151E2E</span>
+                <div className="h-14 rounded-xl bg-navy-800 flex items-center px-4 text-xs font-mono text-white justify-between">
+                  <span>Navy 800</span>
+                  <span>#1E293B</span>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Electric Brand */}
+            {/* Rich Indigo & Violet */}
             <Card variant="default">
               <CardHeader>
-                <CardTitle>Primary Brand</CardTitle>
-                <CardDescription>Intelligent Electric Indigo</CardDescription>
+                <CardTitle>Indigo & Violet</CardTitle>
+                <CardDescription>Primary Brand & Ambient Accents (15%)</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="h-14 rounded-xl bg-brand-600 flex items-center px-4 text-xs font-mono text-white justify-between shadow-md">
-                  <span>Brand 600</span>
+                <div className="h-14 rounded-xl bg-indigo-700 flex items-center px-4 text-xs font-mono text-white justify-between shadow-md">
+                  <span>Indigo 700</span>
+                  <span>#4338CA</span>
+                </div>
+                <div className="h-14 rounded-xl bg-indigo-600 flex items-center px-4 text-xs font-mono text-white justify-between">
+                  <span>Indigo 600</span>
                   <span>#4F46E5</span>
                 </div>
-                <div className="h-14 rounded-xl bg-brand-500 flex items-center px-4 text-xs font-mono text-white justify-between">
-                  <span>Brand 500</span>
-                  <span>#6366F1</span>
-                </div>
-                <div className="h-14 rounded-xl bg-brand-500/15 border border-brand-500/30 flex items-center px-4 text-xs font-mono text-brand-300 justify-between">
-                  <span>Brand Soft</span>
-                  <span>15% Tint</span>
+                <div className="h-14 rounded-xl bg-violet-600 flex items-center px-4 text-xs font-mono text-white justify-between">
+                  <span>Violet 600</span>
+                  <span>#7C3AED</span>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Merit Gold */}
+            {/* Canvas & Accents */}
             <Card variant="default">
               <CardHeader>
-                <CardTitle>Merit & Ranks</CardTitle>
-                <CardDescription>Academic Distinction Gold</CardDescription>
+                <CardTitle>Canvas & Accents</CardTitle>
+                <CardDescription>Warm Off-White, Cyan & Charcoal (65%)</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="h-14 rounded-xl bg-merit-500 flex items-center px-4 text-xs font-mono text-slate-950 font-bold justify-between shadow-md">
-                  <span>Merit Gold</span>
-                  <span>#F59E0B</span>
+                <div className="h-14 rounded-xl bg-[#F8F7F4] border border-black/15 flex items-center px-4 text-xs font-mono text-navy-900 justify-between">
+                  <span>Canvas Base</span>
+                  <span>#F8F7F4</span>
                 </div>
-                <div className="h-14 rounded-xl bg-merit-600 flex items-center px-4 text-xs font-mono text-white justify-between">
-                  <span>Merit Dark</span>
-                  <span>#D97706</span>
+                <div className="h-14 rounded-xl bg-cyan-400 flex items-center px-4 text-xs font-mono text-navy-950 font-bold justify-between shadow-sm">
+                  <span>Cyan 400</span>
+                  <span>#22D3EE</span>
                 </div>
-                <div className="h-14 rounded-xl bg-merit-500/15 border border-merit-500/35 flex items-center px-4 text-xs font-mono text-merit-300 justify-between">
-                  <span>Merit Soft</span>
-                  <span>15% Tint</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Status Colors */}
-            <Card variant="default">
-              <CardHeader>
-                <CardTitle>Semantic Status</CardTitle>
-                <CardDescription>Success & Critical Alerts</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="h-14 rounded-xl bg-emerald-600 flex items-center px-4 text-xs font-mono text-white justify-between shadow-md">
-                  <span>Emerald</span>
-                  <span>#10B981</span>
-                </div>
-                <div className="h-14 rounded-xl bg-danger-600 flex items-center px-4 text-xs font-mono text-white justify-between shadow-md">
-                  <span>Danger</span>
-                  <span>#EF4444</span>
-                </div>
-                <div className="h-14 rounded-xl bg-slate-800 border border-slate-700 flex items-center px-4 text-xs font-mono text-slate-300 justify-between">
-                  <span>Neutral Slate</span>
-                  <span>#334155</span>
+                <div className="h-14 rounded-xl bg-charcoal-900 flex items-center px-4 text-xs font-mono text-white justify-between">
+                  <span>Charcoal 900</span>
+                  <span>#111827</span>
                 </div>
               </CardContent>
             </Card>

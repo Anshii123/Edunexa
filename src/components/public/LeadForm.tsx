@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { 
-  Send, 
-  CheckCircle2, 
-  AlertCircle, 
-  Loader2, 
-  ShieldCheck, 
+import {
+  Send,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  ShieldCheck,
   RotateCcw
 } from 'lucide-react';
 
@@ -169,31 +169,31 @@ export function LeadForm({
           <span className="text-[11px] font-mono font-bold text-emerald-800 uppercase tracking-widest bg-emerald-100/80 px-3 py-1 rounded-md border border-emerald-200 inline-block">
             REF: {submittedData.referenceId}
           </span>
-          <h4 className="text-xl font-bold text-charcoal-900 font-display">
+          <h4 className="text-xl font-bold text-navy-900 font-display">
             Application Registered Successfully
           </h4>
-          <p className="text-xs sm:text-sm text-stone-600 max-w-sm mx-auto leading-relaxed">
-            Thank you, <strong className="text-charcoal-900">{submittedData.name}</strong>. {serverMessage}
+          <p className="text-xs sm:text-sm text-charcoal-600 max-w-sm mx-auto leading-relaxed font-sans">
+            Thank you, <strong className="text-navy-900">{submittedData.name}</strong>. {serverMessage}
           </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-white border border-stone-200 text-left space-y-2 text-xs">
-          <div className="font-bold text-stone-700 uppercase text-[10px] tracking-wider font-mono">
+        <div className="p-4 rounded-xl bg-white border border-black/[0.08] text-left space-y-2 text-xs">
+          <div className="font-bold text-navy-900 uppercase text-[10px] tracking-wider font-mono">
             Next Steps in Your Admission Process:
           </div>
-          <div className="flex items-center gap-2 text-stone-600">
-            <span className="w-4 h-4 rounded-full bg-brand-100 text-brand-900 font-mono text-[10px] flex items-center justify-center font-bold">1</span>
+          <div className="flex items-center gap-2 text-charcoal-600">
+            <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 font-mono text-[10px] flex items-center justify-center font-bold">1</span>
             <span>Admissions Dean review within 24 business hours</span>
           </div>
-          <div className="flex items-center gap-2 text-stone-600">
-            <span className="w-4 h-4 rounded-full bg-brand-100 text-brand-900 font-mono text-[10px] flex items-center justify-center font-bold">2</span>
+          <div className="flex items-center gap-2 text-charcoal-600">
+            <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 font-mono text-[10px] flex items-center justify-center font-bold">2</span>
             <span>Diagnostic assessment slot confirmation link sent via Email/SMS</span>
           </div>
         </div>
 
         <button
           onClick={handleReset}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-900 hover:text-brand-700 transition-colors pt-2"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors pt-2"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Submit Another Enquiry</span>
@@ -216,7 +216,7 @@ export function LeadForm({
       {/* Row 1: Name & Email */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-semibold text-stone-700 mb-1">
+          <label className="block text-xs font-medium text-navy-900 mb-1 font-sans">
             Full Name <span className="text-rose-600">*</span>
           </label>
           <input
@@ -226,17 +226,16 @@ export function LeadForm({
             onChange={handleChange}
             placeholder="e.g. Alexander Vance"
             disabled={status === 'submitting'}
-            className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none transition-colors ${
-              errors.name
+            className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-navy-900 text-xs placeholder-charcoal-400 focus:outline-none transition-colors ${errors.name
                 ? 'border-rose-500 focus:border-rose-600 focus:ring-1 focus:ring-rose-600'
-                : 'border-stone-300 focus:border-brand-800 focus:ring-1 focus:ring-brand-800'
-            }`}
+                : 'border-black/[0.12] focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600'
+              }`}
           />
           {errors.name && <p className="text-[11px] text-rose-600 mt-1">{errors.name}</p>}
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-stone-700 mb-1">
+          <label className="block text-xs font-medium text-navy-900 mb-1 font-sans">
             Email Address <span className="text-rose-600">*</span>
           </label>
           <input
@@ -246,11 +245,10 @@ export function LeadForm({
             onChange={handleChange}
             placeholder="e.g. alexander@example.com"
             disabled={status === 'submitting'}
-            className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none transition-colors ${
-              errors.email
+            className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-navy-900 text-xs placeholder-charcoal-400 focus:outline-none transition-colors ${errors.email
                 ? 'border-rose-500 focus:border-rose-600 focus:ring-1 focus:ring-rose-600'
-                : 'border-stone-300 focus:border-brand-800 focus:ring-1 focus:ring-brand-800'
-            }`}
+                : 'border-black/[0.12] focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600'
+              }`}
           />
           {errors.email && <p className="text-[11px] text-rose-600 mt-1">{errors.email}</p>}
         </div>
@@ -259,7 +257,7 @@ export function LeadForm({
       {/* Row 2: Phone & Target Course */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-semibold text-stone-700 mb-1">
+          <label className="block text-xs font-medium text-navy-900 mb-1 font-sans">
             Phone Number <span className="text-rose-600">*</span>
           </label>
           <input
@@ -269,17 +267,16 @@ export function LeadForm({
             onChange={handleChange}
             placeholder="e.g. +1 (555) 234-5678"
             disabled={status === 'submitting'}
-            className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none transition-colors ${
-              errors.phone
+            className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-navy-900 text-xs placeholder-charcoal-400 focus:outline-none transition-colors ${errors.phone
                 ? 'border-rose-500 focus:border-rose-600 focus:ring-1 focus:ring-rose-600'
-                : 'border-stone-300 focus:border-brand-800 focus:ring-1 focus:ring-brand-800'
-            }`}
+                : 'border-black/[0.12] focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600'
+              }`}
           />
           {errors.phone && <p className="text-[11px] text-rose-600 mt-1">{errors.phone}</p>}
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-stone-700 mb-1">
+          <label className="block text-xs font-medium text-navy-900 mb-1 font-sans">
             Selected Program <span className="text-rose-600">*</span>
           </label>
           <select
@@ -287,10 +284,10 @@ export function LeadForm({
             value={formData.targetCourseTitle}
             onChange={handleChange}
             disabled={status === 'submitting'}
-            className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-300 text-charcoal-900 text-xs focus:outline-none focus:border-brand-800 transition-colors"
+            className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-black/[0.12] text-navy-900 text-xs focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-colors"
           >
             {COURSE_OPTIONS.map((c) => (
-              <option key={c} value={c} className="bg-white text-stone-900">
+              <option key={c} value={c} className="bg-white text-navy-900">
                 {c}
               </option>
             ))}
@@ -301,7 +298,7 @@ export function LeadForm({
       {/* Row 3: Current Education & Preferred Learning Mode */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-semibold text-stone-700 mb-1">
+          <label className="block text-xs font-medium text-navy-900 mb-1 font-sans">
             Current Education Level
           </label>
           <select
@@ -309,10 +306,10 @@ export function LeadForm({
             value={formData.currentEducation}
             onChange={handleChange}
             disabled={status === 'submitting'}
-            className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-300 text-charcoal-900 text-xs focus:outline-none focus:border-brand-800 transition-colors"
+            className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-black/[0.12] text-navy-900 text-xs focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-colors"
           >
             {EDUCATION_LEVELS.map((lvl) => (
-              <option key={lvl} value={lvl} className="bg-white text-stone-900">
+              <option key={lvl} value={lvl} className="bg-white text-navy-900">
                 {lvl}
               </option>
             ))}
@@ -320,7 +317,7 @@ export function LeadForm({
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-stone-700 mb-1">
+          <label className="block text-xs font-medium text-navy-900 mb-1 font-sans">
             Preferred Learning Mode
           </label>
           <div className="grid grid-cols-3 gap-2">
@@ -329,11 +326,10 @@ export function LeadForm({
                 type="button"
                 key={mode}
                 onClick={() => setFormData((prev) => ({ ...prev, preferredMode: mode }))}
-                className={`py-2 px-2 rounded-xl text-xs font-semibold border transition-all ${
-                  formData.preferredMode === mode
-                    ? 'bg-brand-900 text-white border-brand-900 shadow-sm'
-                    : 'bg-stone-100 border-stone-200 text-stone-700 hover:bg-stone-200/80'
-                }`}
+                className={`py-2 px-2 rounded-xl text-xs font-semibold border transition-all ${formData.preferredMode === mode
+                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                    : 'bg-stone-50 border-black/[0.08] text-charcoal-700 hover:bg-stone-100'
+                  }`}
               >
                 {mode}
               </button>
@@ -344,7 +340,7 @@ export function LeadForm({
 
       {/* Message / Questions */}
       <div>
-        <label className="block text-xs font-semibold text-stone-700 mb-1">
+        <label className="block text-xs font-medium text-navy-900 mb-1 font-sans">
           Questions or Scholarship Inquiries (Optional)
         </label>
         <textarea
@@ -354,7 +350,7 @@ export function LeadForm({
           onChange={handleChange}
           placeholder="Mention any specific goals, target rank aspirations, or hostel requirements..."
           disabled={status === 'submitting'}
-          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-300 text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none focus:border-brand-800 transition-colors"
+          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-black/[0.12] text-navy-900 text-xs placeholder-charcoal-400 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-colors"
         />
       </div>
 
@@ -362,7 +358,7 @@ export function LeadForm({
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="w-full py-3.5 px-4 rounded-xl font-bold bg-brand-900 hover:bg-brand-800 disabled:opacity-60 disabled:cursor-not-allowed text-white shadow-sm flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-all"
+        className="w-full py-3.5 px-4 rounded-xl font-semibold bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed text-white shadow-md shadow-indigo-600/20 flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-all"
       >
         {status === 'submitting' ? (
           <>
@@ -378,8 +374,8 @@ export function LeadForm({
       </button>
 
       {/* Privacy assurance */}
-      <p className="text-[11px] text-stone-500 text-center flex items-center justify-center gap-1.5 pt-1">
-        <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+      <p className="text-[11px] text-charcoal-500 text-center flex items-center justify-center gap-1.5 pt-1">
+        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
         <span>Your data is strictly confidential under EduNexa Admissions Policy.</span>
       </p>
     </form>

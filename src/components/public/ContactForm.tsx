@@ -108,17 +108,17 @@ export function ContactForm() {
           <span className="text-[11px] font-mono font-bold text-emerald-800 uppercase tracking-widest bg-emerald-100/80 px-3 py-1 rounded-md border border-emerald-200 inline-block">
             REF: {referenceId}
           </span>
-          <h4 className="text-xl font-bold text-charcoal-900 font-display">
+          <h4 className="text-xl font-bold text-navy-900 font-display">
             Message Sent Successfully
           </h4>
-          <p className="text-xs sm:text-sm text-stone-600 max-w-sm mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-charcoal-600 max-w-sm mx-auto leading-relaxed font-sans">
             {serverMessage} Our academic counseling team will respond to your email within 24 hours.
           </p>
         </div>
 
         <button
           onClick={handleReset}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-900 hover:text-brand-700 transition-colors pt-2"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors pt-2"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Send Another Message</span>
@@ -138,7 +138,7 @@ export function ContactForm() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-semibold text-stone-700 mb-1">
+          <label className="block text-xs font-medium text-navy-900 mb-1 font-sans">
             Your Full Name <span className="text-rose-600">*</span>
           </label>
           <input
@@ -148,17 +148,17 @@ export function ContactForm() {
             onChange={handleChange}
             placeholder="e.g. Maya Lin"
             disabled={status === 'submitting'}
-            className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none transition-colors ${
+            className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-navy-900 text-xs placeholder-charcoal-400 focus:outline-none transition-colors ${
               errors.name
                 ? 'border-rose-500 focus:border-rose-600 focus:ring-1 focus:ring-rose-600'
-                : 'border-stone-300 focus:border-brand-800 focus:ring-1 focus:ring-brand-800'
+                : 'border-black/[0.12] focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600'
             }`}
           />
           {errors.name && <p className="text-[11px] text-rose-600 mt-1">{errors.name}</p>}
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-stone-700 mb-1">
+          <label className="block text-xs font-medium text-navy-900 mb-1 font-sans">
             Email Address <span className="text-rose-600">*</span>
           </label>
           <input
@@ -168,10 +168,10 @@ export function ContactForm() {
             onChange={handleChange}
             placeholder="e.g. maya.lin@example.com"
             disabled={status === 'submitting'}
-            className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none transition-colors ${
+            className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-navy-900 text-xs placeholder-charcoal-400 focus:outline-none transition-colors ${
               errors.email
                 ? 'border-rose-500 focus:border-rose-600 focus:ring-1 focus:ring-rose-600'
-                : 'border-stone-300 focus:border-brand-800 focus:ring-1 focus:ring-brand-800'
+                : 'border-black/[0.12] focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600'
             }`}
           />
           {errors.email && <p className="text-[11px] text-rose-600 mt-1">{errors.email}</p>}
@@ -180,7 +180,7 @@ export function ContactForm() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-semibold text-stone-700 mb-1">
+          <label className="block text-xs font-medium text-navy-900 mb-1 font-sans">
             Phone Number (Optional)
           </label>
           <input
@@ -190,12 +190,12 @@ export function ContactForm() {
             onChange={handleChange}
             placeholder="e.g. +1 (555) 234-5678"
             disabled={status === 'submitting'}
-            className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-300 text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none focus:border-brand-800 transition-colors"
+            className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-black/[0.12] text-navy-900 text-xs placeholder-charcoal-400 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-stone-700 mb-1">
+          <label className="block text-xs font-medium text-navy-900 mb-1 font-sans">
             Inquiry Subject
           </label>
           <select
@@ -203,21 +203,21 @@ export function ContactForm() {
             value={formData.subject}
             onChange={handleChange}
             disabled={status === 'submitting'}
-            className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-300 text-charcoal-900 text-xs focus:outline-none focus:border-brand-800 transition-colors"
+            className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-black/[0.12] text-navy-900 text-xs focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-colors"
           >
-            <option value="Admissions & Batch Inquiries" className="bg-white text-stone-900">
+            <option value="Admissions & Batch Inquiries" className="bg-white text-navy-900">
               Admissions & Batch Inquiries
             </option>
-            <option value="Scholarship Test (NSTHE)" className="bg-white text-stone-900">
+            <option value="Scholarship Test (NSTHE)" className="bg-white text-navy-900">
               Scholarship Test (NSTHE)
             </option>
-            <option value="On-Campus Tour Request" className="bg-white text-stone-900">
+            <option value="On-Campus Tour Request" className="bg-white text-navy-900">
               On-Campus Tour Request
             </option>
-            <option value="Hostel & Residential Accommodation" className="bg-white text-stone-900">
+            <option value="Hostel & Residential Accommodation" className="bg-white text-navy-900">
               Hostel & Residential Accommodation
             </option>
-            <option value="Corporate & Academic Partnerships" className="bg-white text-stone-900">
+            <option value="Corporate & Academic Partnerships" className="bg-white text-navy-900">
               Corporate & Academic Partnerships
             </option>
           </select>
@@ -225,7 +225,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-stone-700 mb-1">
+        <label className="block text-xs font-medium text-navy-900 mb-1 font-sans">
           Your Message <span className="text-rose-600">*</span>
         </label>
         <textarea
@@ -235,10 +235,10 @@ export function ContactForm() {
           onChange={handleChange}
           placeholder="Type your question or request here..."
           disabled={status === 'submitting'}
-          className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none transition-colors ${
+          className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-navy-900 text-xs placeholder-charcoal-400 focus:outline-none transition-colors ${
             errors.message
               ? 'border-rose-500 focus:border-rose-600 focus:ring-1 focus:ring-rose-600'
-              : 'border-stone-300 focus:border-brand-800 focus:ring-1 focus:ring-brand-800'
+              : 'border-black/[0.12] focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600'
           }`}
         />
         {errors.message && <p className="text-[11px] text-rose-600 mt-1">{errors.message}</p>}
@@ -247,7 +247,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="w-full py-3.5 px-4 rounded-xl font-bold bg-brand-900 hover:bg-brand-800 disabled:opacity-60 text-white shadow-sm flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-all"
+        className="w-full py-3.5 px-4 rounded-xl font-semibold bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white shadow-md shadow-indigo-600/20 flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-all"
       >
         {status === 'submitting' ? (
           <>
@@ -262,8 +262,8 @@ export function ContactForm() {
         )}
       </button>
 
-      <p className="text-[11px] text-stone-500 text-center flex items-center justify-center gap-1.5 pt-1">
-        <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+      <p className="text-[11px] text-charcoal-500 text-center flex items-center justify-center gap-1.5 pt-1">
+        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
         <span>Your inquiries are sent directly to the Campus Admissions Desk.</span>
       </p>
     </form>

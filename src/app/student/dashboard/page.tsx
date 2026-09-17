@@ -10,10 +10,12 @@ import {
   TrendingUp, 
   Clock, 
   Download, 
-  PlayCircle,
-  Calendar,
-  ArrowRight,
-  AlertCircle
+  PlayCircle, 
+  Calendar, 
+  ArrowRight, 
+  AlertCircle,
+  CheckCircle2,
+  Sparkles
 } from 'lucide-react';
 import { Course, Notice, EventItem, StudyMaterial } from '@/types';
 
@@ -64,327 +66,258 @@ export default function StudentDashboardPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8 animate-pulse">
-        <div className="h-36 rounded-3xl bg-stone-200" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-28 rounded-2xl bg-stone-200" />
-          ))}
-        </div>
-        <div className="h-64 rounded-3xl bg-stone-200" />
+      <div className="space-y-8 animate-pulse max-w-5xl">
+        <div className="h-28 rounded-2xl bg-stone-200/60" />
+        <div className="h-44 rounded-2xl bg-stone-200/60" />
+        <div className="h-64 rounded-2xl bg-stone-200/60" />
       </div>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="p-8 rounded-3xl bg-white border border-stone-200 text-center space-y-4 shadow-card">
+      <div className="p-10 rounded-3xl bg-white border border-black/[0.08] text-center space-y-4 shadow-xs max-w-md mx-auto mt-12">
         <AlertCircle className="w-10 h-10 text-rose-600 mx-auto" />
-        <h3 className="text-lg font-bold text-charcoal-900">Unable to Load Student Dashboard</h3>
-        <p className="text-xs text-stone-500 max-w-sm mx-auto">{error || 'Please re-authenticate your session.'}</p>
+        <h2 className="text-lg font-bold text-[#0F172A]">Unable to Load Student Workspace</h2>
+        <p className="text-xs text-[#64748B] max-w-sm mx-auto">{error || 'Please re-authenticate your session.'}</p>
         <Link
           href="/login"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-900 text-white text-xs font-semibold"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#2563EB] text-white text-xs font-semibold shadow-xs"
         >
-          <span>Sign In to Refresh</span>
+          <span>Sign In Again</span>
         </Link>
       </div>
     );
   }
 
   const { profile, enrolledCourses, recentMaterials, recentNotices, upcomingEvents } = data;
+  const activeCourse = enrolledCourses[0];
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto">
-      {/* Welcome Banner */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/90 shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div className="space-y-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[11px] font-bold uppercase tracking-wider border border-emerald-200">
-              Active Scholar
+    <div className="space-y-12 max-w-5xl">
+      
+      {/* 1. Header & Greeting (Large Typography + Whitespace) */}
+      <div className="space-y-2 border-b border-black/[0.06] pb-6">
+        <div className="text-xs font-medium text-[#64748B]">
+          {profile.batch} • Scholar ID: <span className="font-mono text-[#0F172A]">{profile.studentId}</span>
+        </div>
+        <h1 className="text-3xl sm:text-4xl font-bold text-[#0F172A] font-display tracking-tight">
+          Good morning, {profile.name}
+        </h1>
+        <p className="text-sm text-[#475569]">
+          Here is your personalized academic schedule and prioritized study modules for today.
+        </p>
+      </div>
+
+      {/* 2. Priority Action Panel: "What should I learn or do next?" */}
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-black/[0.08] shadow-xs space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#0F172A]">
+              Recommended Next Step
             </span>
-            <span className="text-xs font-mono text-stone-500">ID: {profile.studentId}</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-900 font-display tracking-tight">
-            Welcome back, {profile.name}
-          </h1>
-          <p className="text-xs sm:text-sm text-stone-600">
-            Registered Cohort: <strong className="text-charcoal-900">{profile.batch}</strong>
+          <span className="text-xs text-[#64748B]">
+            Estimated Focus Time: 45 Mins
+          </span>
+        </div>
+
+        <div className="space-y-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#0F172A] font-display">
+            {activeCourse ? activeCourse.title : 'Calculus Masterclass: Unseen Proof Problems'}
+          </h2>
+          <p className="text-sm text-[#475569] leading-relaxed max-w-2xl">
+            Pick up from Module 4: Multivariable optimization and Lagrange multipliers. Faculty mentor Dr. Arthur Sterling's twilight review notes have been uploaded to your desk.
           </p>
         </div>
 
-        {/* Quick Link Actions */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="pt-2 flex flex-wrap items-center gap-3">
           <Link
-            href="/student/courses"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-900 hover:bg-brand-800 text-white font-semibold text-xs transition-all shadow-sm"
+            href={activeCourse ? `/courses/${activeCourse.slug}` : '/student/courses'}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs shadow-xs transition-all"
           >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>My Courses</span>
+            <span>Continue Module 4</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
           <Link
             href="/student/materials"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold text-xs border border-stone-200 transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold bg-[#F8F7F4] hover:bg-stone-200/70 text-[#0F172A] border border-black/[0.08] text-xs transition-all"
           >
             <FileText className="w-3.5 h-3.5" />
-            <span>Study Kit</span>
+            <span>Open Problem Bank PDF</span>
           </Link>
         </div>
       </div>
 
-      {/* Progress & Academic Metrics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/90 shadow-card space-y-1">
-          <div className="flex items-center justify-between text-stone-500 text-xs font-mono">
-            <span>Overall Score</span>
-            <TrendingUp className="w-4 h-4 text-emerald-700" />
-          </div>
-          <div className="text-2xl sm:text-3xl font-extrabold text-emerald-800 font-display">
-            {profile.overallScore}%
-          </div>
-          <p className="text-[10px] text-stone-500 font-medium">Ranked in Top 1% of Batch</p>
+      {/* 3. Horizontal Progress & Academic Overview (Subtle Panel) */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 sm:p-7 rounded-2xl bg-[#F8F7F4] border border-black/[0.06]">
+        <div className="space-y-1">
+          <div className="text-xs text-[#64748B]">Diagnostic Mastery</div>
+          <div className="text-2xl font-bold text-[#0F172A] font-display">{profile.overallScore}%</div>
+          <div className="text-[11px] text-emerald-700 font-medium">Top 1% of cohort</div>
         </div>
 
-        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/90 shadow-card space-y-1">
-          <div className="flex items-center justify-between text-stone-500 text-xs font-mono">
-            <span>Attendance Rate</span>
-            <Clock className="w-4 h-4 text-brand-800" />
-          </div>
-          <div className="text-2xl sm:text-3xl font-extrabold text-charcoal-900 font-display">
-            {profile.attendanceRate}%
-          </div>
-          <p className="text-[10px] text-emerald-800 font-medium">96 / 100 Lectures Attended</p>
+        <div className="space-y-1">
+          <div className="text-xs text-[#64748B]">Lecture Attendance</div>
+          <div className="text-2xl font-bold text-[#0F172A] font-display">{profile.attendanceRate}%</div>
+          <div className="text-[11px] text-[#64748B]">Regular status</div>
         </div>
 
-        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/90 shadow-card space-y-1">
-          <div className="flex items-center justify-between text-stone-500 text-xs font-mono">
-            <span>Curriculum Modules</span>
-            <BookOpen className="w-4 h-4 text-brand-800" />
-          </div>
-          <div className="text-2xl sm:text-3xl font-extrabold text-charcoal-900 font-display">
-            {profile.modulesCompleted} / {profile.totalModules}
-          </div>
-          <p className="text-[10px] text-stone-500">67% Syllabus Mastered</p>
+        <div className="space-y-1">
+          <div className="text-xs text-[#64748B]">Syllabus Modules</div>
+          <div className="text-2xl font-bold text-[#0F172A] font-display">{profile.modulesCompleted} / {profile.totalModules}</div>
+          <div className="text-[11px] text-[#64748B]">68% completed</div>
         </div>
 
-        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/90 shadow-card space-y-1">
-          <div className="flex items-center justify-between text-stone-500 text-xs font-mono">
-            <span>Enrolled Programs</span>
-            <Award className="w-4 h-4 text-amber-700" />
-          </div>
-          <div className="text-2xl sm:text-3xl font-extrabold text-amber-800 font-display">
-            {profile.enrolledCoursesCount} Active
-          </div>
-          <p className="text-[10px] text-stone-500">Olympiad & Entrance Track</p>
+        <div className="space-y-1">
+          <div className="text-xs text-[#64748B]">Enrolled Cohorts</div>
+          <div className="text-2xl font-bold text-[#0F172A] font-display">{profile.enrolledCoursesCount}</div>
+          <div className="text-[11px] text-[#2563EB] font-medium">Active tracks</div>
         </div>
       </div>
 
-      {/* Badges Bar */}
-      <div className="flex flex-wrap items-center gap-2.5 p-4 rounded-2xl bg-white border border-stone-200 shadow-card">
-        <span className="text-xs font-semibold text-stone-600 flex items-center gap-1.5 mr-2 font-mono">
-          <Award className="w-4 h-4 text-amber-700" /> Academic Distinctions:
-        </span>
-        {profile.badges.map((b, idx) => (
-          <span
-            key={idx}
-            className="px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-900 text-xs font-medium flex items-center gap-1"
-          >
-            <span>🏆</span>
-            <span>{b}</span>
-          </span>
-        ))}
+      {/* 4. Enrolled Courses (Horizontal Rows instead of repetitive cards) */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-bold text-[#0F172A] font-display">
+            Active Programs & Syllabus Progress
+          </h2>
+          <Link href="/student/courses" className="text-xs text-[#2563EB] font-medium hover:underline">
+            View all courses →
+          </Link>
+        </div>
+
+        <div className="divide-y divide-black/[0.06] bg-white rounded-2xl border border-black/[0.08] shadow-xs">
+          {enrolledCourses.map((course) => (
+            <div key={course.id} className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-xs text-[#64748B]">
+                  <span className="font-semibold text-[#0F172A]">{course.category}</span>
+                  <span>•</span>
+                  <span>{course.duration}</span>
+                </div>
+                <h3 className="text-base font-bold text-[#0F172A] font-display">
+                  <Link href={`/courses/${course.slug}`} className="hover:text-[#2563EB] transition-colors">
+                    {course.title}
+                  </Link>
+                </h3>
+              </div>
+
+              <div className="flex items-center gap-6 sm:shrink-0">
+                <div className="w-32 hidden sm:block space-y-1">
+                  <div className="flex justify-between text-[10px] text-[#64748B]">
+                    <span>Syllabus</span>
+                    <span className="font-semibold text-[#0F172A]">68%</span>
+                  </div>
+                  <div className="w-full h-1.5 rounded-full bg-stone-100 overflow-hidden">
+                    <div className="h-full bg-[#2563EB] rounded-full w-[68%]" />
+                  </div>
+                </div>
+
+                <Link
+                  href={`/courses/${course.slug}`}
+                  className="px-3.5 py-1.5 rounded-lg bg-[#F8F7F4] hover:bg-stone-200/60 text-xs font-semibold text-[#0F172A] border border-black/[0.06] transition-colors"
+                >
+                  Open Syllabus
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Main Grid: Enrolled Courses & Study Materials vs Notices & Events */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Col (8): Courses & Materials */}
-        <div className="lg:col-span-8 space-y-8">
-          {/* Enrolled Courses Section */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold text-charcoal-900 font-display flex items-center gap-2 tracking-tight">
-                <BookOpen className="w-5 h-5 text-brand-800" /> Enrolled Academic Courses
-              </h2>
-              <Link
-                href="/student/courses"
-                className="text-xs text-brand-900 hover:text-brand-700 font-semibold flex items-center gap-1"
-              >
-                <span>View Full Roadmap</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            {enrolledCourses.length === 0 ? (
-              <div className="p-8 rounded-2xl bg-white border border-stone-200 text-center text-xs text-stone-500 shadow-card">
-                You are not currently enrolled in any active cohorts.
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {enrolledCourses.map((course) => (
-                  <div
-                    key={course.id}
-                    className="bg-white rounded-2xl p-5 border border-stone-200/90 shadow-card space-y-3.5 flex flex-col justify-between"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between text-[11px] mb-1.5">
-                        <span className="font-semibold text-brand-900 bg-stone-100 px-2 py-0.5 rounded border border-stone-200">
-                          {course.category}
-                        </span>
-                        <span className="text-emerald-800 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                          In Progress
-                        </span>
-                      </div>
-                      <h3 className="text-sm font-bold text-charcoal-900 font-display line-clamp-1">
-                        {course.title}
-                      </h3>
-                      <p className="text-xs text-stone-600 mt-1 line-clamp-2 leading-relaxed">
-                        {course.shortDescription || course.description}
-                      </p>
-                    </div>
-
-                    <div className="space-y-2 pt-2 border-t border-stone-100">
-                      <div className="flex items-center justify-between text-xs text-stone-500 font-mono">
-                        <span>Curriculum Progress</span>
-                        <span className="text-charcoal-900 font-bold">68%</span>
-                      </div>
-                      <div className="w-full h-1.5 rounded-full bg-stone-100 overflow-hidden">
-                        <div className="h-full bg-brand-900 rounded-full w-[68%]" />
-                      </div>
-                      <div className="flex items-center justify-between text-[11px] text-stone-500 pt-1">
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3 text-brand-800" /> Mon, Wed, Fri (4:30 PM)
-                        </span>
-                        <Link
-                          href={`/courses/${course.slug}`}
-                          className="text-brand-900 hover:text-brand-700 font-semibold"
-                        >
-                          Syllabus →
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+      {/* 5. Split Section: Digital Study Files & Scheduled Masterclasses */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+        
+        {/* Left Col (7): Study Materials */}
+        <div className="md:col-span-7 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-[#0F172A] font-display">
+              Recent Study Files
+            </h2>
+            <Link href="/student/materials" className="text-xs text-[#2563EB] font-medium hover:underline">
+              All files ({recentMaterials.length}) →
+            </Link>
           </div>
 
-          {/* Recent Study Materials */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold text-charcoal-900 font-display flex items-center gap-2 tracking-tight">
-                <FileText className="w-5 h-5 text-brand-800" /> Digital Study Materials
-              </h2>
-              <Link
-                href="/student/materials"
-                className="text-xs text-brand-900 hover:text-brand-700 font-semibold flex items-center gap-1"
+          <div className="space-y-2.5">
+            {recentMaterials.map((mat) => (
+              <div
+                key={mat.id}
+                className="bg-white rounded-xl p-4 border border-black/[0.06] shadow-xs flex items-center justify-between gap-3"
               >
-                <span>Browse All Files ({recentMaterials.length})</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            <div className="space-y-2.5">
-              {recentMaterials.map((mat) => (
-                <div
-                  key={mat.id}
-                  className="bg-white rounded-xl p-4 border border-stone-200/90 shadow-card flex items-center justify-between gap-4"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-stone-100 border border-stone-200 flex items-center justify-center text-brand-900 shrink-0">
-                      {mat.type === 'Lecture Video' ? (
-                        <PlayCircle className="w-4 h-4" />
-                      ) : (
-                        <FileText className="w-4 h-4" />
-                      )}
-                    </div>
-                    <div>
-                      <h4 className="text-xs sm:text-sm font-bold text-charcoal-900 font-display">{mat.title}</h4>
-                      <div className="flex items-center gap-2 text-[11px] text-stone-500 mt-0.5 font-mono">
-                        <span className="text-brand-900 font-medium">{mat.type}</span>
-                        <span>•</span>
-                        <span>{mat.fileSize || mat.duration}</span>
-                        <span>•</span>
-                        <span>Uploaded {mat.uploadDate}</span>
-                      </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#2563EB] flex items-center justify-center shrink-0">
+                    {mat.type === 'Lecture Video' ? <PlayCircle className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
+                  </div>
+                  <div>
+                    <h3 className="text-xs sm:text-sm font-semibold text-[#0F172A]">{mat.title}</h3>
+                    <div className="text-[11px] text-[#64748B] flex items-center gap-2 mt-0.5">
+                      <span>{mat.type}</span>
+                      <span>•</span>
+                      <span>{mat.fileSize || mat.duration}</span>
                     </div>
                   </div>
-
-                  <button
-                    onClick={() => alert(`Opening resource: ${mat.title}`)}
-                    className="px-3 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-xs font-semibold text-charcoal-900 border border-stone-200 flex items-center gap-1.5 shrink-0 transition-colors"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    <span>Access</span>
-                  </button>
                 </div>
-              ))}
-            </div>
+
+                <button
+                  onClick={() => alert(`Opening resource: ${mat.title}`)}
+                  className="px-3 py-1.5 rounded-lg bg-[#F8F7F4] hover:bg-stone-200/60 text-xs font-semibold text-[#0F172A] border border-black/[0.06] flex items-center gap-1.5 shrink-0 transition-colors"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Access</span>
+                </button>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Right Col (4): Notices & Upcoming Events */}
-        <div className="lg:col-span-4 space-y-6">
-          {/* Institutional Circulars Feed */}
-          <div className="bg-white rounded-2xl p-5 border border-stone-200/90 shadow-card space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-base font-bold text-charcoal-900 font-display flex items-center gap-2">
-                <Bell className="w-4 h-4 text-amber-700" />
-                Institute Circulars
-              </h3>
-              <Link
-                href="/student/notices"
-                className="text-[11px] text-brand-900 hover:text-brand-700 font-semibold"
-              >
-                All →
-              </Link>
-            </div>
-
-            <div className="space-y-3">
-              {recentNotices.map((not) => (
-                <div
-                  key={not.id}
-                  className="p-3.5 rounded-xl bg-stone-50 border border-stone-200 space-y-1.5"
-                >
-                  <div className="flex items-center justify-between text-[10px] font-mono">
-                    <span className="px-2 py-0.5 rounded bg-stone-200 text-stone-800 font-semibold">
-                      {not.category}
-                    </span>
-                    <span className="text-stone-500">{not.publishDate}</span>
-                  </div>
-                  <h4 className="text-xs font-bold text-charcoal-900 leading-snug">{not.title}</h4>
-                  <p className="text-[11px] text-stone-600 line-clamp-2 leading-relaxed">
-                    {not.content}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Upcoming Masterclasses & Mock Exams */}
-          <div className="bg-white rounded-2xl p-5 border border-stone-200/90 shadow-card space-y-3.5">
-            <h3 className="text-base font-bold text-charcoal-900 font-display flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-emerald-700" />
-              Scheduled Masterclasses
-            </h3>
-
+        {/* Right Col (5): Upcoming Events & Circulars */}
+        <div className="md:col-span-5 space-y-6">
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold text-[#0F172A] font-display">
+              Upcoming Masterclasses
+            </h2>
             <div className="space-y-3">
               {upcomingEvents.map((ev) => (
-                <div
-                  key={ev.id}
-                  className="p-3.5 rounded-xl bg-stone-50 border border-stone-200 space-y-2"
-                >
-                  <div className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider font-mono">
+                <div key={ev.id} className="p-4 rounded-xl bg-white border border-black/[0.06] shadow-xs space-y-1">
+                  <div className="text-[11px] font-bold text-[#2563EB]">
                     {ev.date} • {ev.time}
                   </div>
-                  <h4 className="text-xs font-bold text-charcoal-900">{ev.title}</h4>
-                  <p className="text-[11px] text-stone-500">{ev.location}</p>
+                  <h3 className="text-xs font-bold text-[#0F172A]">{ev.title}</h3>
+                  <p className="text-[11px] text-[#64748B]">{ev.location}</p>
                 </div>
               ))}
             </div>
           </div>
+
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-bold text-[#0F172A] font-display">
+                Campus Circulars
+              </h2>
+              <Link href="/student/notices" className="text-xs text-[#2563EB] hover:underline">
+                Notices →
+              </Link>
+            </div>
+            <div className="space-y-2.5">
+              {recentNotices.slice(0, 2).map((not) => (
+                <div key={not.id} className="p-3.5 rounded-xl bg-[#F8F7F4] border border-black/[0.06] space-y-1">
+                  <div className="text-[10px] text-[#64748B] flex justify-between">
+                    <span>{not.category}</span>
+                    <span>{not.publishDate}</span>
+                  </div>
+                  <h3 className="text-xs font-semibold text-[#0F172A]">{not.title}</h3>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
+
       </div>
+
     </div>
   );
 }
-

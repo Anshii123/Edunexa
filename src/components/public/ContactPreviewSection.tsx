@@ -7,57 +7,52 @@ export function ContactPreviewSection() {
   const data = HOMEPAGE_DATA.contactPreview;
 
   return (
-    <section className="py-20 lg:py-24 bg-[#FBF9F5] border-t border-stone-200/90">
+    <section className="py-20 lg:py-24 bg-[#F8F7F4] border-t border-black/[0.06]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left Column (7 cols): Campus HQ Info */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-stone-100 border border-stone-200 text-stone-700 text-xs font-semibold uppercase tracking-wider font-mono">
-              <Building2 className="w-3.5 h-3.5 text-brand-800" />
-              <span>{data.badge}</span>
-            </div>
-
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-charcoal-900 font-display tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy-900 font-display tracking-tight">
               {data.title}
             </h2>
 
-            <p className="text-base text-stone-600 leading-relaxed max-w-xl">
+            <p className="text-base text-charcoal-600 leading-relaxed max-w-xl font-sans">
               {data.subtitle}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div className="bg-white rounded-2xl p-5 border border-stone-200/90 shadow-card space-y-2">
-                <div className="flex items-center gap-2 text-brand-900 text-xs font-bold uppercase tracking-wider font-mono">
-                  <MapPin className="w-4 h-4 text-brand-800" /> Main Quad
+              <div className="bg-white rounded-2xl p-5 border border-black/[0.08] shadow-card space-y-2 hover:shadow-card-hover transition-all">
+                <div className="flex items-center gap-2 text-indigo-600 text-xs font-bold uppercase tracking-wider font-mono">
+                  <MapPin className="w-4 h-4 text-indigo-600" /> Main Quad
                 </div>
-                <div className="text-xs text-stone-600 leading-relaxed">
+                <div className="text-xs text-charcoal-600 leading-relaxed font-sans">
                   {data.address}
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl p-5 border border-stone-200/90 shadow-card space-y-2">
-                <div className="flex items-center gap-2 text-emerald-800 text-xs font-bold uppercase tracking-wider font-mono">
-                  <Clock className="w-4 h-4 text-emerald-700" /> Counseling Hours
+              <div className="bg-white rounded-2xl p-5 border border-black/[0.08] shadow-card space-y-2 hover:shadow-card-hover transition-all">
+                <div className="flex items-center gap-2 text-emerald-700 text-xs font-bold uppercase tracking-wider font-mono">
+                  <Clock className="w-4 h-4 text-emerald-600" /> Counseling Hours
                 </div>
-                <div className="text-xs text-stone-600 leading-relaxed">
+                <div className="text-xs text-charcoal-600 leading-relaxed font-sans">
                   {data.hours}
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl p-5 border border-stone-200/90 shadow-card space-y-2">
-                <div className="flex items-center gap-2 text-brand-900 text-xs font-bold uppercase tracking-wider font-mono">
-                  <Phone className="w-4 h-4 text-brand-800" /> Direct Helpline
+              <div className="bg-white rounded-2xl p-5 border border-black/[0.08] shadow-card space-y-2 hover:shadow-card-hover transition-all">
+                <div className="flex items-center gap-2 text-indigo-600 text-xs font-bold uppercase tracking-wider font-mono">
+                  <Phone className="w-4 h-4 text-indigo-600" /> Direct Helpline
                 </div>
-                <div className="text-xs text-stone-700 font-mono">
+                <div className="text-xs text-navy-900 font-mono font-medium">
                   {data.phone}
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl p-5 border border-stone-200/90 shadow-card space-y-2">
-                <div className="flex items-center gap-2 text-amber-800 text-xs font-bold uppercase tracking-wider font-mono">
-                  <Mail className="w-4 h-4 text-amber-700" /> Admissions Desk
+              <div className="bg-white rounded-2xl p-5 border border-black/[0.08] shadow-card space-y-2 hover:shadow-card-hover transition-all">
+                <div className="flex items-center gap-2 text-violet-700 text-xs font-bold uppercase tracking-wider font-mono">
+                  <Mail className="w-4 h-4 text-violet-600" /> Admissions Desk
                 </div>
-                <div className="text-xs text-stone-700 font-mono">
+                <div className="text-xs text-navy-900 font-mono font-medium">
                   {data.email}
                 </div>
               </div>
@@ -66,14 +61,14 @@ export function ContactPreviewSection() {
 
           {/* Right Column (5 cols): Quick Campus Visit / Action Card */}
           <div className="lg:col-span-5">
-            <div className="bg-white rounded-3xl p-8 border border-stone-200/90 shadow-card space-y-6 text-center">
-              <div className="w-13 h-13 rounded-2xl bg-stone-100 border border-stone-200 text-brand-900 flex items-center justify-center mx-auto shadow-sm">
-                <Building2 className="w-6 h-6" />
+            <div className="bg-white rounded-3xl p-8 border border-black/[0.08] shadow-card space-y-6 text-center">
+              <div className="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center mx-auto shadow-sm">
+                <Building2 className="w-7 h-7" />
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xl font-bold text-charcoal-900 font-display">Schedule an On-Campus Walkthrough</h3>
-                <p className="text-xs text-stone-600 max-w-sm mx-auto leading-relaxed">
+                <h3 className="text-xl font-bold text-navy-900 font-display">Schedule an On-Campus Walkthrough</h3>
+                <p className="text-xs text-charcoal-600 max-w-sm mx-auto leading-relaxed font-sans">
                   Tour our 3D dissection suites, high-speed coding pods, and attend a live problem-solving lecture with faculty.
                 </p>
               </div>
@@ -90,9 +85,9 @@ export function ContactPreviewSection() {
                 </a>
                 <Link
                   href="/contact"
-                  className="w-full py-3 px-4 rounded-xl font-semibold bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs border border-stone-200 transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-3 px-4 rounded-xl font-semibold bg-stone-50 hover:bg-stone-100 text-navy-900 text-xs border border-black/[0.08] transition-colors flex items-center justify-center gap-2"
                 >
-                  <Send className="w-3.5 h-3.5" />
+                  <Send className="w-3.5 h-3.5 text-indigo-600" />
                   <span>Request Guided Campus Tour</span>
                 </Link>
               </div>

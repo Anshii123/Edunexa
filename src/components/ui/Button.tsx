@@ -26,30 +26,30 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 focus-ring select-none tracking-tight';
+      'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none disabled:hover:translate-y-0 focus-ring select-none tracking-tight';
 
     const variants = {
       primary:
-        'bg-brand-900 hover:bg-brand-800 active:bg-brand-950 text-white shadow-sm border border-brand-950/20',
+        'bg-[#4338CA] hover:bg-[#3730A3] active:bg-[#312E81] text-white shadow-sm border border-indigo-700/20 hover:shadow-indigo-500/25',
       secondary:
-        'bg-stone-100 hover:bg-stone-200/90 active:bg-stone-300 text-stone-800 border border-stone-200/80 shadow-subtle',
+        'bg-white hover:bg-stone-50 active:bg-stone-100 text-[#111827] border border-black/[0.08] shadow-subtle',
       outline:
-        'bg-transparent hover:bg-stone-100 text-stone-800 border border-stone-300 hover:border-stone-400',
+        'bg-transparent hover:bg-black/[0.03] text-[#111827] border border-black/[0.12] hover:border-black/[0.2]',
       ghost:
-        'bg-transparent hover:bg-stone-100 text-stone-700 hover:text-stone-950',
+        'bg-transparent hover:bg-black/[0.04] text-[#4B5563] hover:text-[#111827]',
       gold:
-        'bg-merit-600 hover:bg-merit-700 active:bg-merit-800 text-white font-semibold shadow-sm border border-merit-700/30',
+        'bg-[#D97706] hover:bg-[#B45309] active:bg-[#92400E] text-white shadow-sm border border-amber-600/30',
       danger:
         'bg-rose-600 hover:bg-rose-700 text-white shadow-sm',
       subtle:
-        'bg-brand-50 hover:bg-brand-100 text-brand-900 border border-brand-200/60',
+        'bg-[#F1F0FA] hover:bg-indigo-100/80 text-[#4338CA] border border-indigo-200/60',
     };
 
     const sizes = {
-      xs: 'px-3 py-1 text-xs gap-1.5 rounded-lg',
-      sm: 'px-3.5 py-1.5 text-xs gap-2 rounded-lg',
+      xs: 'px-3 py-1.5 text-xs gap-1.5 rounded-lg',
+      sm: 'px-3.5 py-2 text-xs gap-2 rounded-xl',
       md: 'px-5 py-2.5 text-sm gap-2 rounded-xl',
-      lg: 'px-6 py-3 text-base gap-2.5 rounded-xl',
+      lg: 'px-6 py-3.5 text-base gap-2.5 rounded-xl font-bold',
     };
 
     return (

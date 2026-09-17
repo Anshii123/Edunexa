@@ -13,10 +13,10 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         rows={rows}
         disabled={disabled}
         className={cn(
-          'w-full rounded-xl bg-slate-900/90 border text-slate-100 placeholder-slate-500 text-sm p-3.5 transition-all focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed resize-y',
+          'w-full rounded-xl bg-white border text-[#111827] placeholder-[#9CA3AF] text-sm p-3.5 transition-all focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed resize-y shadow-xs',
           error
-            ? 'border-danger-500/80 focus:border-danger-500 focus:ring-1 focus:ring-danger-500/50'
-            : 'border-slate-800 hover:border-slate-700 focus:border-brand-500 focus:ring-1 focus:ring-brand-500/50',
+            ? 'border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20'
+            : 'border-black/[0.12] hover:border-black/[0.2] focus:border-[#4338CA] focus:ring-2 focus:ring-indigo-500/20',
           className
         )}
         {...props}

@@ -4,14 +4,14 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth/AuthContext';
-import { 
-  GraduationCap, 
-  Lock, 
-  Mail, 
-  User, 
-  Phone, 
-  ArrowRight, 
-  Loader2, 
+import {
+  GraduationCap,
+  Lock,
+  Mail,
+  User,
+  Phone,
+  ArrowRight,
+  Loader2,
   AlertCircle
 } from 'lucide-react';
 
@@ -103,23 +103,24 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FBF9F5] flex items-center justify-center p-4 sm:p-8 pt-24 pb-12">
-      <div className="w-full max-w-xl bg-white rounded-3xl p-6 sm:p-10 border border-stone-200/90 shadow-card space-y-6">
-        {/* Header */}
+    <div className="min-h-screen bg-[#FBFBF9] flex items-center justify-center p-4 sm:p-8 pt-28 pb-16 font-sans">
+      <div className="w-full max-w-xl bg-white rounded-3xl p-6 sm:p-10 border border-black/[0.08] shadow-sm space-y-6">
+        
+        {/* Brand Header */}
         <div className="text-center space-y-2">
-          <Link href="/" className="inline-flex items-center gap-2.5 mb-2">
-            <div className="w-9 h-9 rounded-xl bg-brand-900 flex items-center justify-center shadow-sm">
-              <GraduationCap className="w-5 h-5 text-white" />
+          <Link href="/" className="inline-flex items-center gap-2.5 mb-1 group">
+            <div className="w-9 h-9 rounded-xl bg-[#0F172A] text-white flex items-center justify-center shadow-xs group-hover:bg-[#2563EB] transition-colors">
+              <GraduationCap className="w-5 h-5" />
             </div>
-            <span className="text-xl font-bold text-charcoal-900 font-display">
-              Edu<span className="text-brand-900">Nexa</span>
+            <span className="text-xl font-bold text-[#0F172A] font-display">
+              SKILLORA<span className="text-[#2563EB]">.</span>
             </span>
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-900 font-display tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#0F172A] font-display tracking-tight">
             Create Student Profile
           </h1>
-          <p className="text-xs sm:text-sm text-stone-500">
-            Join thousands of ambitious scholars and Olympiad rankers at EduNexa.
+          <p className="text-xs sm:text-sm text-[#475569]">
+            Join ambitious scholars, Olympiad aspirants, and researchers at Skillora.
           </p>
         </div>
 
@@ -131,14 +132,14 @@ export default function RegisterPage() {
           </div>
         )}
 
-        {/* Form */}
+        {/* Registration Form */}
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <div>
-            <label className="block text-xs font-semibold text-stone-700 mb-1.5">
-              Full Name <span className="text-rose-600">*</span>
+            <label className="block text-xs font-medium text-[#0F172A] mb-1.5">
+              Full Legal Name <span className="text-rose-600">*</span>
             </label>
             <div className="relative">
-              <User className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <User className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 name="name"
@@ -147,7 +148,7 @@ export default function RegisterPage() {
                 placeholder="e.g. Liam Thorne"
                 required
                 disabled={isLoading}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-stone-300 text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none focus:border-brand-800 focus:ring-1 focus:ring-brand-800 transition-all"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-black/[0.1] text-[#0F172A] text-xs placeholder-[#94A3B8] focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-all"
               />
             </div>
             {errors.name && <p className="text-[11px] text-rose-600 mt-1">{errors.name}</p>}
@@ -155,11 +156,11 @@ export default function RegisterPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-stone-700 mb-1.5">
+              <label className="block text-xs font-medium text-[#0F172A] mb-1.5">
                 Email Address <span className="text-rose-600">*</span>
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Mail className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   name="email"
@@ -168,18 +169,18 @@ export default function RegisterPage() {
                   placeholder="e.g. liam@example.com"
                   required
                   disabled={isLoading}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-stone-300 text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none focus:border-brand-800 focus:ring-1 focus:ring-brand-800 transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-black/[0.1] text-[#0F172A] text-xs placeholder-[#94A3B8] focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-all"
                 />
               </div>
               {errors.email && <p className="text-[11px] text-rose-600 mt-1">{errors.email}</p>}
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-stone-700 mb-1.5">
+              <label className="block text-xs font-medium text-[#0F172A] mb-1.5">
                 Phone Number
               </label>
               <div className="relative">
-                <Phone className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Phone className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="tel"
                   name="phone"
@@ -187,7 +188,7 @@ export default function RegisterPage() {
                   onChange={handleChange}
                   placeholder="e.g. +1 (555) 234-5678"
                   disabled={isLoading}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-stone-300 text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none focus:border-brand-800 focus:ring-1 focus:ring-brand-800 transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-black/[0.1] text-[#0F172A] text-xs placeholder-[#94A3B8] focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-all"
                 />
               </div>
             </div>
@@ -195,11 +196,11 @@ export default function RegisterPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-stone-700 mb-1.5">
+              <label className="block text-xs font-medium text-[#0F172A] mb-1.5">
                 Create Password <span className="text-rose-600">*</span>
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="password"
                   name="password"
@@ -208,18 +209,18 @@ export default function RegisterPage() {
                   placeholder="Min. 6 characters"
                   required
                   disabled={isLoading}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-stone-300 text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none focus:border-brand-800 focus:ring-1 focus:ring-brand-800 transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-black/[0.1] text-[#0F172A] text-xs placeholder-[#94A3B8] focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-all"
                 />
               </div>
               {errors.password && <p className="text-[11px] text-rose-600 mt-1">{errors.password}</p>}
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-stone-700 mb-1.5">
+              <label className="block text-xs font-medium text-[#0F172A] mb-1.5">
                 Confirm Password <span className="text-rose-600">*</span>
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="password"
                   name="confirmPassword"
@@ -228,7 +229,7 @@ export default function RegisterPage() {
                   placeholder="Re-enter password"
                   required
                   disabled={isLoading}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-stone-300 text-charcoal-900 text-xs placeholder-stone-400 focus:outline-none focus:border-brand-800 focus:ring-1 focus:ring-brand-800 transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-black/[0.1] text-[#0F172A] text-xs placeholder-[#94A3B8] focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-all"
                 />
               </div>
               {errors.confirmPassword && <p className="text-[11px] text-rose-600 mt-1">{errors.confirmPassword}</p>}
@@ -238,7 +239,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3.5 px-4 rounded-xl font-bold bg-brand-900 hover:bg-brand-800 disabled:opacity-60 text-white shadow-sm flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-all mt-3"
+            className="w-full py-3 px-4 rounded-xl font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-60 text-white shadow-sm flex items-center justify-center gap-2 text-xs transition-all mt-3"
           >
             {isLoading ? (
               <>
@@ -255,9 +256,9 @@ export default function RegisterPage() {
         </form>
 
         {/* Footer Link to Login */}
-        <div className="pt-4 border-t border-stone-200/80 text-center text-xs text-stone-500">
-          <span>Already have an account? </span>
-          <Link href="/login" className="font-bold text-brand-900 hover:text-brand-700 underline ml-1">
+        <div className="pt-4 border-t border-black/[0.06] text-center text-xs text-[#64748B]">
+          <span>Already have a Skillora account? </span>
+          <Link href="/login" className="font-semibold text-[#2563EB] hover:underline ml-1">
             Sign In Here
           </Link>
         </div>
@@ -265,4 +266,3 @@ export default function RegisterPage() {
     </div>
   );
 }
-

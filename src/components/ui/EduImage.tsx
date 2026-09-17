@@ -115,9 +115,8 @@ export function EduImage({
           decoding="async"
           onLoad={handleImageLoad}
           onError={handleImageError}
-          className={`w-full h-full object-cover transition-all duration-300 ${
-            zoomOnHover ? 'group-hover:scale-105' : ''
-          } ${imgClassName}`}
+          className={`w-full h-full object-cover transition-all duration-300 ${zoomOnHover ? 'group-hover:scale-105' : ''
+            } ${imgClassName}`}
         />
       )}
 

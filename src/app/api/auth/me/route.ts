@@ -14,12 +14,16 @@ export async function GET() {
 
     const payload = verifySessionToken(tokenCookie.value);
     if (!payload) {
-      return NextResponse.json({ success: false, user: null }, { status: 401 });
+      const res = NextResponse.json({ success: false, user: null }, { status: 401 });
+      res.cookies.delete(SESSION_COOKIE_NAME);
+      return res;
     }
 
     const user = await userStore.findUserByIdAsync(payload.userId);
     if (!user || user.status !== 'active') {
-      return NextResponse.json({ success: false, user: null }, { status: 401 });
+      const res = NextResponse.json({ success: false, user: null }, { status: 401 });
+      res.cookies.delete(SESSION_COOKIE_NAME);
+      return res;
     }
 
     const sessionUser = userStore.toSessionUser(user);

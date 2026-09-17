@@ -50,10 +50,6 @@ export default function StudentMaterialsPage() {
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
       <div className="space-y-2">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-stone-100 border border-stone-200 text-stone-700 text-xs font-semibold uppercase tracking-wider font-mono">
-          <FileText className="w-3.5 h-3.5 text-brand-800" />
-          <span>Digital Library & Study Kit</span>
-        </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-900 font-display tracking-tight">
           Study Materials & Resources
         </h1>
